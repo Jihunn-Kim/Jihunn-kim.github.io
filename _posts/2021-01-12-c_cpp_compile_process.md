@@ -1,7 +1,7 @@
 ---
 title: "c언어 컴파일 과정"
 last_modified_at: 2021-01-12
-description: ""
+excerpt: ""
 categories:
   - c_cpp
 ---
