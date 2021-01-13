@@ -1,5 +1,5 @@
 ---
-title: "stream buffer"
+title: "c언어 stream buffer"
 last_modified_at: 2021-01-08T14:44:02-05:00
 excerpt: "buffer 사용 이유, carriage return"
 categories:
@@ -9,7 +9,7 @@ categories:
 ## Buffer 사용 이유
 <a href="https://stackoverflow.com/questions/23298717/what-is-meant-by-stream-buffering" target="_blank"><b> 파일과 콘솔 I/O 접근은 메모리 연산보다 매우 느리기 때문이다. </b></a>  
 파일 입출력이나 키보드 입력이 들어올 때마다 처리하는 것은 다른 연산이 비효율적으로 기다려야 한다.
-<a href="https://stackoverflow.com/questions/23298717/what-is-meant-by-stream-buffering" target="_blank"><b> 따라서 파일, 콘솔에 대한 추상화를 제공하는 stream data를 buffer에 잠시 저장했다가, 한번에 처리한다. </b></a>
+<a href="https://stackoverflow.com/questions/33874548/c-what-is-the-need-of-both-buffer-and-stream" target="_blank"><b> 따라서 파일, 콘솔에 대한 추상화를 제공하는 stream의 data를 buffer에 잠시 저장했다가, 한번에 처리한다. </b></a>
 
 ## Buffer 종류
 Buffer에는 unbuffered, block buffered, line buffered 종류가 있다. Block buffered는 buffer가 전부 찰 때 비우며, line buffered는 newline을 
