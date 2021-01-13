@@ -1,6 +1,6 @@
 ---
 title: "c언어 stream buffer"
-last_modified_at: 2021-01-08T14:44:02-05:00
+last_modified_at: 2021-01-13
 excerpt: "buffer 사용 이유, carriage return"
 categories:
   - c_cpp
