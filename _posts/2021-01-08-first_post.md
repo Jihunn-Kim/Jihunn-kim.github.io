@@ -1,6 +1,8 @@
 ---
 title: "github.io 블로그 시작하기"
 last_modified_at: 2021-01-08T14:44:02-05:00
+show_date: true
+classes: wide
 excerpt: ""
 categories:
   - Blog
