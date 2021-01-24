@@ -86,7 +86,7 @@ Want to wrap several paragraphs or other elements in a notice?
 	<figcaption><a href="https://github.com" target="_blank"><b> caption </b></a></figcaption>
 </figure>
 
-<figure class="align-center">
+<figure style="width: 400px" class="align-center">
  	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
  	<figcaption>center</figcaption>
 </figure> 
