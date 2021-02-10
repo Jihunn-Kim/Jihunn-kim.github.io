@@ -1,6 +1,6 @@
 ---
 title: "운영체제 요약 - 8. 메모리 관리 전략
-last_modified_at: 2021-02-03
+last_modified_at: 2021-02-01
 show_date: true
 classes: wide
 excerpt: ""
