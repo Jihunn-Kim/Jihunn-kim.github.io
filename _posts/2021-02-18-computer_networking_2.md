@@ -1,6 +1,6 @@
 ---
 title: "컴퓨터 네트워킹 요약 - 2. 애플리케이션 계층
-last_modified_at: 2021-02-18
+last_modified_at: 2021-02-20
 show_date: true
 classes: wide
 excerpt: ""
@@ -544,5 +544,192 @@ N개의 피어들이 파일의 복사본을 얻는 데 걸리는 최소 분배 �
 사용자가 가지고 있지 않은 청크 중에서, 이웃들 중에 가장 드문 청크(가장 적은 반복 복사본을 가진 청크)를 요구한다. 
 이런 방법으로 가장 드문 청크들은 더 빨리 재분배되어, 토렌트에 각 청크의 복사본 수가 동일하게 된다. 
 
+어느 피어에게 청크를 보낼 지를 결정하기 위해 현명한 교역(trading) 알고리즘을 사용한다. 
+이는 사용자에게 가장 빠른 속도로 데이터를 제공하는 이웃들을 주기적으로 갱신한다. 
+그리고 임의로 한 이웃을 추가로 선택하여, 이들에게 청크를 보내고, 나머지에게는 청크를 보내지 않는다. 
+피어는 더 좋은 파트너를 만날 때까지 교역을 계속한다. 
+이런 교역을 위한 보상 방식을 TFT(tif-for-tat)이라고 한다. 
 
+## 2.6. 비디오 스트리밍과 컨텐츠 분배 네트워크(Video Streaming and Content Distribution Networks)
 
+### 2.6.1. 인터넷 비디오(Internet Video)
+녹화된 비디오는 서버에 저장되어 사용자가 비디오 시텅을 서버에게 온디맨드(on-demand)로 요청한다. 
+
+비디오는 이미지의 연속으로서 일정한 속도로 표시된다. 
+비디오는 압축될 수 있는데, 많이 압축할 수록 비디오 품질은 하락하고 필요 비트 전송률도 낮아진다. 
+비트 전송률이 높아질수록 이미지 품질이 좋아지고 사용자 시청 환경이 향상된다. 
+
+고화질 4K 스트리밍은 10Mbps 이상의 비트 전송률이 필요하다. 
+영상시간이 67분인 2Mbps 비디오는 1GByte의 저장공간 및 트래픽을 소비한다. 
+
+스트리밍 비디오에서 중요한 성능 척도는 평균 종단간(end-to-end) 처리량이다. 
+연속재생을 위해, 네트워크는 압축된 비디오의 전송률 이상의 평균 처리량을 스티리밍 애플리케이션에 제공해야한다. 
+
+### 2.6.2. HTTP 스트리밍 및 대쉬(HTTP Streaming and DASH)
+HTTP 스트리밍에서 비디오는 HTTP 서버 내의 특정 URL을 갖는 일반적인 파일로 저장된다. 
+그리고 요청이 들어오면, HTTP 응답 메세지 내에서 비디오 파일을 전송한다. 
+
+HTTP 스트리밍은 똑같이 인코딩된 비디오를 전송하고, 클라이언트들이 서로 다른 가용 대역폭을 가졌기에 문제가 되었다. 
+이로 인해 HTTP 기반 스트리밍인 DASH(Dynamic Adaptive Streaming over HTTP)가 개발되었다. 
+
+DASH에서 비디오는 여러 개의 서로 다른 버전으로 인코딩 되며, 각 버전은 서로 다른 비트율과 품질 수준을 갖고 있다. 
+클라이언트는 동적으로 비디오를 몇 초 분량의 길이를 가지는 비디오 조각(chunk) 단위로 요청한다. 
+가용 대역폭이 충분할 때에는 높은 비트율의 버전을, 적을 때는 낮은 비트율의 버전을 요청한다. 
+
+DASH를 사용할 때, 각 비디오 버전은 HTTP 서버에 서로 다른 URL을 가지고 저장된다. 
+HTTP 서버는 비트율에 따른 각 버전의 URL을 제공하는 매니패스트(manifest) 파일을 가지고 있다. 
+그러므로 DASH는 클라이언트가 서로 다른 품질 수준을 자유롭게 선택할 수 있도록 허용한다. 
+
+### 2.6.3. 콘텐츠 분배 네트워크(Content Distribution Networks, CDN)
+전 세계의 사용자들에게 비디오 데이터를 분배하기 위해, 비디오 스트리밍 회사들은 CDN을 이용한다. 
+CDN은 다수의 지점에 분산된 서버들을 운영하며, 이곳에 비디오 및 다른 형태의 웹 콘텐츠 데이터의 복사본을 저장한다. 
+사용자는 최선의 서비스와 사용자경험(user experience)을 제공할 수 있는 지점의 CDN 서버로 연결된다. 
+
+CDN은 각 클러스터마다 서로 다른 복사본을 가지고 있다. 
+사용자가 지역 클러스터에 없는 비디오를 요청하면, 중앙서버나 다른 클러스터로부터 전송받아 저장하고 사용자에게 제공한다. 
+자주 사용되지 않는 비디오 데이터는 삭제된다. 
+
+#### 2.6.3.1. CDN 동작(CDN Operation)
+CDN은 사용자의 비디오 재생 요청을 가로채, (1) 사용자에게 가장 좋은 CDN 클러스터를 선택하고, 
+(2) 요청을 클러스터의 서버로 보낸다. 
+
+요청을 가로채고 다른 곳으로 연결하는 절차는 다음 예와 같다. 
+NetCinema 라는 콘텐츠 제공자가 KingCDN이라는 CDN 업체를 이용해 비디오를 사용자에게 분배한다고 하자. 
+1. 사용자가 NetCinema 웹페이지를 방문한다. 
+2. 사용자가 http://video.netcinema.com/6Y7B23V 링크를 클릭하면, video.netcinema.com에 대한 DNS query를 보낸다. 
+3. 로컬 DNS 서버(LDNS)는 요청을 NetCinema 책임 DNS 서버로 전달한다. 책임 DNS 서버는 kingCDN의 호스트 이름을 LDNS에게 알려준다. 
+4. LDNS가 KingCDN 책임 서버에 요청을 보내고, KingCDN의 콘텐츠 서버의 IP 주소를 받는다. 이때 사용자가 접근할 CDN 서버가 결정된다. 
+5. LDNS가 사용자에게 IP 주소를 알려주고, 사용자가 비디오에 대한 요청을 한다. 
+
+#### 2.6.3.2. 클러스터 선택 정책(Cluster Selection Strategies)
+앞에처럼 CDN은 사용자의 LDNS서버가 요청을 보냈기에 LDNS서버의 IP 주소를 알게 된다. 
+간단한 클러스터 선택은 이를 사용하여, 사용자에게 지리적으로 가장 가까운 클러스터를 할당한다. 
+
+하지만 문제점은 지리적으로 가까워도 네트워크 경로가 길 수도 있고, LDNS가 사용자로부터 멀 수도 있다는 점이다. 
+대안으로 CDN은 주기적으로 사용자와 클러스터간의 지연 및 손실 성능에 대한 실시간 측정(ping, DNS query 등)을 수행하기도 한다. 
+
+### 2.6.4. 사례연구(Case Studies)
+
+#### 2.6.4.1. 넷플릭스(Netflix)
+아마존 클라우드를 사용한다. 
+영화의 스튜디오 마스터 버전을 클라우드 시스템에 업로드한다. 
+스마트폰, TV 등 다양한 플레이어 기기 사양에 작접하도록 각 영화의 여러 가지 형식의 비디오를 생성한다. 
+
+#### 2.6.4.2. 유튜브(YouTube)
+구글/유튜브의 디자인 및 프로토콜는 독점적이다. 
+DASH와 같은 적응적 스트리밍 대신에 사용자가 스스로 버전을 선택하게 하였다. 
+여러 버전의 비디오 버전을 생성한다. 
+
+#### 2.6.4.3. KanKan
+CDN-P2P 스트리밍 시스템을 사용한다. 
+총 P2P 트래픽이 비디오 재생에 충분하면, 사용자는 CDN에서 스트리밍을 중단하고 피어를 통해서만 한다. 
+
+## 2.7. 소켓 프로그래밍: 네트워크 애플리케이션 생성(Socket Programming: Creating Network Applications)
+두 형태의 네트워크 애플리케이션이 있다. 
+
+먼저 RFC 2616 (표준 HTTP 프로토콜)에 따라 클라이언트-서버 프로그램을 작성하면, 다른 개발자가 만든 프로그램에 제대로 상호작용할 수 있다. 
+이 프로토콜과 연관된 잘 알려진(well-known) 포트 번호(예를 들어 HTTP는 80)를 사용해야 한다. 
+
+혹은 개인이 프로그램에 완전한 제어를 가지고 공개되지 않은(개인이 정한) 프로토콜을 사용하면, 다른 개발자가 만든 프로그램과 상호작용 할 수는 없다. 
+그리고 잘 알려진 포트 번호를 사용하지 말아야 한다. 
+
+### 2.7.1. UDP를 이용한 소켓 프로그래밍(Socket Programming with UDP)
+```python
+// UDPClient.py
+from socket import *
+
+// 호스트 이름 혹은 서버의 IP 주소
+// 호스트 이름을 사용하면 IP 주소를 얻기 위해 DNS 검색이 수행됨
+serverName = 'hostname'
+serverPort = 12000
+
+// AF_INET 은 IPv4를 의미, 4장 내용
+// SOCK_DGRAM 은 UDP 소켓을 의미
+clientSocket = socket(AF_INET, SOCK_DGRAM)
+
+message = raw_input('Input lowercase sentence:')
+
+// message.encode() 문자열 타입을 바이트 타입으로 변환
+// sendto() 는 목적지 주소 (serverName, serverPort) 를 패킷에 붙이고 소켓으로 보냄
+// 출발지 주소도 붙이나 이는 자동으로 수행됨
+clientSocket.sendto(message.encode(), (serverName, serverPort))
+
+modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
+print(modifiedMessage.decode())
+clientSocket.close()
+```
+
+```python
+// UDPServer.py
+from socket import *
+
+serverPort = 12000
+serverSocket = socket(AF_INET, SOCK_DGRAM)
+
+// 포트 번호를 소켓에 할당한다
+// 서버 IP 주소의 12000 포트로 패킷을 보내면 해당 소켓으로 패킷이 전달된다
+serverSocket.bind(('', serverPort))
+
+print('The server is ready to receive')
+while True:
+	message, clientAddress = serverSocket.recvfrom(2048)
+
+	// 대문자로 바꾸고 다시 보냄
+	modifiedMessage = message.decode().upper()
+	serverSocket.sendto(modifiedMessage.encode(), clientAddress)
+```
+
+### 2.7.2. TCP 소켓 프로그래밍(Socket Programming with TCP)
+UDP와 달리 TCP는 연결지향 프로토콜로, 데이터를 보내기 전에 TCP 연결을 설정(handshake and establish)해야 한다. 
+TCP 연결의 한쪽은 클라이언트 소켓에 연결되고, 다른 쪽은 서버 소켓에 연결된다. 
+
+TCP 서버는 클라이언트로부터의 초기 접속을 처리하는 환영(welcome) 소켓을 가져야 한다. 
+클라이언트는 TCP 소켓을 생성할 때, 이 환경 소켓의 IP 주소와 포트 번호를 명시한다. 
+소켓을 생성한 후 세 방향 핸드셰이크를 하고 TCP 연결을 설정한다. 
+
+서버에 클라이언트가 세 방향 핸드셰이크를 통해 접근하면, 서버는 해당 클라이언트에 지정되는 새로운 소켓을 생성한다. 
+
+```python
+// TCPClient.py
+from socket import *
+
+serverName = 'servername'
+serverPort = 12000
+
+// SOCK_STREAM 은 TCP 소켓을 의미
+clientSocket = socket(AF_INET, SOCK_STREAM)
+// 데이터를 보내기 전에 TCP 연결이 설정되어야 함
+clientSocket.connect((serverName, serverPort))
+
+sentence = raw_input('Input lowercase sentence:')
+// UDP 와 다르게 패킷에 목적지 주소가 필요없음, 위에서 설정됨
+clientSocket.send(sentence.encode())
+
+modifiedSentence = clientSocket.recv(1024)
+print(’From Server: ’, modifiedSentence.decode())
+
+clientSocket.close()
+```
+
+```python
+// TCPServer.py
+from socket import *
+
+serverPort = 12000
+// 환영 소켓
+serverSocket = socket(AF_INET, SOCK_STREAM)
+serverSocket.bind(('', serverPort))
+// TCP 연결 요청을 기다림, 최대 연결 수 1
+serverSocket.listen(1)
+
+print('The server is ready to receive')
+while True:
+	// 클라이언트에 지정되는 소켓 생성
+	connectionSocket, addr = serverSocket.accept()
+	sentence = connectionSocket.recv(1024).decode()
+
+	capitalizedSentence = sentence.upper()
+	connectionSocket.send(capitalizedSentence.encode())
+
+	connectionSocket.close()
+```
