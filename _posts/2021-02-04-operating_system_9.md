@@ -1,5 +1,5 @@
 ---
-title: "운영체제 요약 - 9. 가상 메모리
+title: "운영체제 요약 - 9. 가상 메모리"
 last_modified_at: 2021-02-09
 show_date: true
 classes: wide
