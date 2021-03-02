@@ -1,5 +1,5 @@
 ---
-title: "컴퓨터 네트워킹 요약 - 3. 트랜스포트 계층
+title: "컴퓨터 네트워킹 요약 - 3. 트랜스포트 계층"
 last_modified_at: 2021-02-23
 show_date: true
 classes: wide

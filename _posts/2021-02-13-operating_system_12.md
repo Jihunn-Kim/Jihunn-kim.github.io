@@ -1,5 +1,5 @@
 ---
-title: "운영체제 요약 - 12. 대용량 저장장치 구조
+title: "운영체제 요약 - 12. 대용량 저장장치 구조"
 last_modified_at: 2021-02-13
 show_date: true
 classes: wide

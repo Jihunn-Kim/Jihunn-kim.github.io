@@ -1,5 +1,5 @@
 ---
-title: "컴퓨터 네트워킹 요약 - 6. 링크 계층: 링크, 접속망, 랜
+title: "컴퓨터 네트워킹 요약 - 6. 링크 계층: 링크, 접속망, 랜"
 last_modified_at: 2021-03-01
 show_date: true
 classes: wide

@@ -1,5 +1,5 @@
 ---
-title: "컴퓨터 네트워킹 요약 - 1. 컴퓨터 네트워크와 인터넷
+title: "컴퓨터 네트워킹 요약 - 1. 컴퓨터 네트워크와 인터넷"
 last_modified_at: 2021-02-18
 show_date: true
 classes: wide

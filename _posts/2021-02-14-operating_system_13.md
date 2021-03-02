@@ -1,5 +1,5 @@
 ---
-title: "운영체제 요약 - 13. 입출력 시스템
+title: "운영체제 요약 - 13. 입출력 시스템"
 last_modified_at: 2021-02-16
 show_date: true
 classes: wide

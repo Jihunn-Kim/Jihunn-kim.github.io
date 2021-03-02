@@ -1,5 +1,5 @@
 ---
-title: "운영체제 요약 - 11. 파일 시스템 구현
+title: "운영체제 요약 - 11. 파일 시스템 구현"
 last_modified_at: 2021-02-11
 show_date: true
 classes: wide
