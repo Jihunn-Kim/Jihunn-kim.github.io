@@ -1,6 +1,6 @@
 ---
 title: "데이터 베이스 요약 - 4. 관계 대수와 SQL"
-last_modified_at: 2021-03-07
+last_modified_at: 2021-03-08
 show_date: true
 classes: wide
 excerpt: ""
@@ -237,3 +237,365 @@ ALTER TABLE STUDENT DROP CONSTRAINT STUDENT_PK;
 ```
 
 ## 4.4. SELECT 문
+관계 데이터베이스에서 정보를 검색하는 SQL문. 
+관계 대수의 실렉션, 프로젝션, 조인, 카티션 곱 등을 결합한 것. 
+
+4.4절에서 사용할 데이터베이스 예시 그림은 아래와 같다. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/20.png' }}" alt=""> 
+</figure> 
+
+아래 그림, SELECT문의 형식에서 SELECT절과 FROM절만 필수적인 절이고, 나머지는 선택 사항.
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/21.png' }}" alt=""> 
+</figure> 
+
+별칭(alias): 서로 다른 릴레이션에 동일한 이름을 가진 애트리뷰트가 속해 있을 때 애트리뷰트의 이름을 구분하는 방법. 
+```console
+FROM EMPLOYEE AS E, DEPARTMENT AS D
+WHERE E.DNO == D.DEPTNO
+```
+
+---
+
+SELET문 예시들 
+
+모든 애트리뷰트나 일부 애트리뷰트들을 검색. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/22.png' }}" alt=""> 
+</figure> 
+
+---
+
+상이한 값들을 검색. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/23.png' }}" alt=""> 
+</figure> 
+
+---
+
+특정할 투플들을 검색. 
+
+<figure style="width: 800px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/24.png' }}" alt=""> 
+</figure> 
+
+<figure style="width: 800px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/25.png' }}" alt=""> 
+</figure> 
+
+---
+
+SELECT절에서 산술 연산자(+, -, *, /) 사용
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/26.png' }}" alt=""> 
+</figure> 
+
+---
+
+널 값을 포함한 다른 값과 널 값을 +, - 등을 사용하여 연산하면 결과는 널. 
+어떤 애트리뷰트에 들어 있는 값이 널인가 비교하기 위해서 'DNO=NULL'처럼 나타내면 안됨. 
+'DNO IS NULL', 'DNO IS NOT NULL'이 올바른 표현. 
+
+```console
+// 아래 비교 결과들은 모두 거짓
+NULL > 300
+NULL = 300
+NULL <> 300
+NULL = NULL
+NULL <> NULL
+```
+---
+
+true/false/unknown 세 가지 값의 논리 (Three valued logic)
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/27.png' }}" alt=""> 
+</figure> 
+
+---
+
+사용자가 SELECT문에서 질의 결과의 순서를 명시하지 않으면, 릴레이션에 투플들이 삽입된 순서대로 사용자에게 제시됨. 
+ORDER BY절에서 하나 이상의 애트리뷰트를 사용하여 검색 결과를 정렬할 수 있음. 
+
+SELECT문에서 가장 마지막에 사용되는 절이며, 디폴트 정렬 순서는 오름차순(ASC). 
+DESC를 지정하여 정렬 순서를 내림차순으로 지정할 수 있음. 
+
+널값은 오름차순에서는 가장 마지막에 나타나고, 내림차순에서는 가장 앞에 나타남. 
+SELECT절에 명시한 애트리뷰트들을 사용해서 정렬해야 함. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/28.png' }}" alt=""> 
+</figure> 
+
+---
+
+집단 함수는 데이터베이스에서 검색된 여러 투플들의 집단에 적용되는 함수. 
+한 릴레이션의 한 개의 애트리뷰트에 적용되어 단일 값을 반환함. 
+SELECT절과 HAVING절에만 나타날 수 있음. 
+
+COUNT(*)를 제외하고는 널값을 제거한 후 남아 있는 값들에 대해서 집단 함수의 값을 구함. 
+COUNT(*)는 결과 릴레이션의 모든 행들의 총 개수를 구하는 반면에 COUNT(애트리뷰트)는 해당 애트리뷰트에서 널값이 아닌 값들의 개수를 구함. 
+
+키워드 DISTINCT가 집단 함수 앞에 사용되면 집단 함수가 적용되기 전에 먼저 중복을 제거함. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/29.png' }}" alt=""> 
+</figure> 
+
+---
+
+GROUP BY절에 사용된 애트리뷰트에 동일한 값을 갖는 투플들이 각각 하나의 그룹으로 묶임. 
+이 애트리뷰트를 그룹화 애트리뷰트(grouping attribute)라고 함. 
+
+각 그룹에 대하여 결과 릴레이션에 하나의 투플이 생성됨. 
+SELECT절에는 집단 함수, 그룹화 애트리뷰트들만 나타날 수 있음. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/30.png' }}" alt=""> 
+</figure> 
+
+---
+
+HAVING절을 사용하여, 어떤 조건을 만족하는 그룹들에 대해서만 집단 함수를 적용할 수 있음. 
+각 그룹마다 하나의 값을 갖는 애트리뷰트를 사용하여 각 그룹이 만족해야 하는 조건을 명시함. 
+
+그룹화 애트리뷰트에 같은 값을 갖는 투플들의 그룹에 대한 조건을 나타내고, 이 조건을 만족하는 그룹들만 질의 결과에 나타남. 
+HAVING절에 나타나는 애트리뷰트는 반드시 GROUP BY절에 나타나거나 집단 함수에 포함되어야 함. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/31.png' }}" alt=""> 
+</figure> 
+
+---
+
+집합 연산을 적용하려면 두 릴레이션이 합집합 호환성을 가져야 함. 
+UNION(합집합), EXCEPT(차집합), INTERSECT(교집합), UNION ALL(합집합), EXCEPT ALL(차집합), INTERSECT ALL(교집합). 
+ALL이 붙은 것은 중복 튜플을 허용한다. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/32.png' }}" alt=""> 
+</figure> 
+
+---
+
+조인은 두 개 이상의 릴레이션으로부터 연관된 투플들을 결합. 
+일반적으로 FROM절에 두 개 이상의 릴레이션들이 열거되고, 두 릴레이션에 속하는 애트리뷰트들을 비교하는 조인 조건이 WHERE절에 포함됨. 
+
+조인 조건을 생략했을 때와 조인 조건을 틀리게 표현했을 때(매칭되는 애트리뷰트가 없음)는 카티션 곱이 생성됨. 
+조인 질의가 수행되는 과정은 먼저 조인 조건을 만족하는 투플들을 찾고, SELECT 절에 명시된 애트리뷰트들만 프로젝트하고, 중복을 배제하는 순서로 진행됨. 
+
+두 릴레이션의 조인 애트리뷰트 이름이 동일하다면 반드시 애트리뷰트 이름 앞에 릴레이션 이름이나 투플 변수를 사용해야 함. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/33.png' }}" alt=""> 
+</figure> 
+
+자체 조인(self join)은 한 릴레이션에 속하는 투플을 동일한 릴레이션에 속하는 투플들과 조인하는 것. 
+실제로는 한 릴레이션이 접근되지만 FROM절에 두 릴레이션이 참조되는 것처럼 나타내기 위해서 그 릴레이션에 대한 별칭을 두 개 지정해야 함. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/34.png' }}" alt=""> 
+</figure> 
+
+---
+
+중첩 질의(nested query)는 질의의 WHERE 또는 FROM절에 다시 '(SELECT … FROM … WHERE …)' 형태로 포함된 SELECT문. 
+부질의(subquery)라고도 불림. 중첩 질의를 포함하는 질의를 외부 질의라고 부름. 
+
+중첩 질의의 결과는 세 가지 경우가 있음. 
+- 한 개의 스칼라값(단일 값)
+- 한 개의 애트리뷰트로 이루어진 릴레이션
+- 여러 애트리뷰트로 이루어진 릴레이션
+
+(1) 한 개의 스칼라값이 반환되는 경우. 
+스칼라(scala): 컬럼 값으로 사용될 수 있는 원자 값 (atomic value)가 반환된다. 
+WHERE 절에서 상수 또는 애트리뷰트가 사용될 위치에 나타날 수 있음. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/35.png' }}" alt=""> 
+</figure> 
+
+(2) 한 개의 애트리뷰트로 이루어진 릴레이션이 반환되는 경우. 
+중첩 질의의 결과로 한 개의 애트리뷰트로 이루어진 다수의 투플들이 반환될 수 있음. 
+외부 질의의 WHERE절에서 IN, ANY(SOME), ALL, EXISTS와 같은 연산자를 사용해야 함. 
+
+- IN: 한 애트리뷰트가 값들의 집합에 속하는가를 검사
+- ANY: 한 애트리뷰트가 값들의 집합에 속하는 하나 이상의 값들과 어떤 관계를 갖는가를 검사
+- ALL: 한 애트리뷰트가 값들의 집합에 속하는 모든 값들과 어떤 관계를 갖는가를 검사
+- EXISTS: 중첩 질의의 결과가 빈 릴레이션인지 검사. 빈 릴레이션이면 거짓, 아니면 참.
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/36.png' }}" alt=""> 
+</figure> 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/37.png' }}" alt=""> 
+</figure> 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/38.png' }}" alt=""> 
+</figure> 
+
+(3) 여러 애트리뷰트들로 이루어진 릴레이션이 반환되는 경우. 
+(2)와 마찬가지로 IN, ANY, ALL, EXISTS 중에 하나를 외부 질의의 WHERE에서 사용할 수 있음. 
+결과 릴레이션과 호환되는 투플 구조를 갖는 투플을 사용해서 비교해야 함. 
+
+```console
+SELECT EMPNAME 
+FROM EMPLOYEE E 
+WHERE SALARY =< 1500000 AND (E.TITLE, E.DNO) IN 
+	(SELECT TITLE, DNO 
+	FROM EMPLOYEE 
+	WHERE SALARY > 1500000 
+	);
+```
+
+---
+
+상관 중첩 질의(correlated nested query)는 중첩 질의의 WHERE절에 있는 프레디키트에서 외부 질의에 선언된 릴레이션의 일부 애트리뷰트를 참조하는 질의. 
+상관 중첩 질의에서는 외부 질의를 만족하는 각 투플이 구해진 후에, 투플의 수만큼 반복적으로 중첩 질의가 수행됨. 
+
+반면, 위 중첩 질의(nested query)에서는, 중첩 질의가 한 번 수행되고, 외부 질의가 수행됨. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/39.png' }}" alt=""> 
+</figure> 
+
+---
+
+FROM 절에에서도 저장된 일반 테이블과 함께 중첩 질의를 사용할 수 있음. 
+중첩 질의는 테이블 이름이 없으므로 alias를 사용하여 이름 부여. 
+
+```console
+SELECT EMPNAME, DEPTNAME 
+FROM EMPLOYEE E, (SELECT DEPTNO, DEPTNAME FROM DEPARTMENT) D 
+WHERE E.DNO = D.DEPTNO AND TITLE = '과장';
+```
+
+---
+
+INSERT문은 기존의 릴레이션에 투플을 삽입. 
+릴레이션에 한 번에 한 투플씩 삽입하는 것과 한 번에 여러 개의 투플들을 삽입할 수 있는 것으로 구분. 
+
+(1) 릴레이션에 한 번에 한 투플씩 삽입하는 INSERT문
+```console
+INSERT 
+INTO 릴레이션(애트리뷰트1, ..., 애트리뷰트n) 
+VALUES (값1, ..., 값n); 
+```
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/40.png' }}" alt=""> 
+</figure> 
+
+(2) 릴레이션에 한 번에 여러 개의 투플들을 삽입하는 INSERT문
+```console
+INSERT 
+INTO 릴레이션(애트리뷰트1, ..., 애트리뷰트n) 
+SELECT ... FROM ... WHERE ...; 
+```
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/41.png' }}" alt=""> 
+</figure> 
+
+---
+
+DELETE문은 한 릴레이션으로부터 한 개 이상의 투플들을 삭제함. 
+ 
+```console
+// DELETE문의 구문
+DELETE 
+FROM 릴레이션 
+WHERE 조건; 
+```
+
+<figure style="width: 400px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/42.png' }}" alt=""> 
+</figure> 
+
+---
+
+UPDATE문은 한 릴레이션에 들어 있는 투플들의 애트리뷰트 값들을 수정. 
+
+```console
+// UPDATE문의 구문
+UPDATE 릴레이션 
+SET 애트리뷰트 = 값 또는 식[, …] 
+WHERE 조건; 
+```
+
+<figure style="width: 400px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/43.png' }}" alt=""> 
+</figure> 
+
+## 4.6. 트리거(trigger)와 주장(assertion)
+트리거는 명시된 이벤트가 발생할 때마다 DBMS가 자동적으로 수행하는, 사용자가 정의하는 문(프로시저). 
+데이터베이스의 무결성을 유지하기 위한 일반적이고 강력한 도구. 
+테이블 정의시 표현할 수 없는 기업의 비즈니스 규칙들을 시행하는 역할. 
+
+트리거 표현 요소
+- 트리거를 활성화시키는 사건인 이벤트 (event)
+- 트리거가 활성화되었을 때 수행되는 테스트인 조건 (condition)
+- 트리거가 활성화되고 조건이 참일 때 수행되는 문(프로시저)인 동작 (action)
+
+<figure style="width: 400px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/44.png' }}" alt=""> 
+</figure> 
+
+이벤트의 가능한 예로는 테이블에 투플 삽입, 투플 삭제, 투플 수정 등이 있음. 
+조건은 임의의 형태의 프레디키트. 
+동작은 데이터베이스에 대한 임의의 갱신. 
+
+어떤 이벤트가 발생했을 때 조건이 참이 되면 트리거와 연관된 동작이 수행되고, 그렇지 않으면 아무 동작도 수행되지 않음. 
+삽입, 삭제, 수정 등이 일어나기 전(before)에 동작하는 트리거와 일어난 후(after)에 동작하는 트리거로 구분. 
+
+하나의 트리거가 활성화되어 이 트리거의 SQL문이 수행되고, 연쇄적으로 다른 트리거가 활성화될 수 있음. 
+
+<figure style="width: 400px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/45.png' }}" alt=""> 
+</figure> 
+
+---
+
+주장 (ASSERTION)은 SQL3에 포함되어 있으나 대부분의 상용 관계 DBMS가 아직 지원하고 있지 않음. 
+트리거는 제약조건을 위반했을 때 수행할 동작을 명시하는 것이고, 주장은 제약조건을 위반하는 연산이 수행되지 않도록 함. 
+
+```console
+// 주장의 구문
+CREATE ASSERTION 이름 
+CHECK 조건; 
+```
+
+트리거보다 좀더 일반적인 무결성 제약조건
+DBMS는 주장의 프레디키트를 검사하고, 만일 참이면 데이터베이스 수정이 허용됨. 
+
+대부분의 주장은 NOT EXISTS를 포함. 
+'모든 x가 F를 만족한다'를 이와 동치인 '¬ F를 만족하는 x가 존재하지 않는다'로 표시하기 때문. 
+
+<figure style="width: 400px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/46.png' }}" alt=""> 
+</figure> 
+
+## 4.7. 내포된 SQL (embedded SQL)
+SQL이 호스트 언어의 완전한 표현력을 갖고 있지 않기 때문에 모든 질의를 SQL로 표현할 수는 없음. 
+SQL은 호스트 언어가 갖고 있는 조건문, 반복문, 입출력, 사용자와의 상호 작용, 질의 결과를 GUI로 보내는 등의 기능을 갖고 있지 않음. 
+
+C, C++, 코볼, 자바 등의 언어로 작성하는 프로그램에 SQL문을 삽입하여, 
+데이터베이스를 접근하는 부분을 SQL이 맡고 SQL에 없는 기능은 호스트 언어로 작성하는 것이 필요. 
+ 
+호스트 언어에 포함되는 SQL문을 내포된 SQL이라 부름. 
+데이터 구조가 불일치하는 문제(impedance mismatch 문제)가 있음. 
+
+<figure style="width: 400px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/47.png' }}" alt=""> 
+</figure> 
+
+내포된 SQL은 성능측면에서는 좋지만, 전컴파일러(precompiler)가 사용되어 특정 데이터베이스 제품에만 사용 가능하다. 
+반면, ODBC와 같은 API는 여러 데이터베이스 제품 접근에 사용될 수 있다. 
