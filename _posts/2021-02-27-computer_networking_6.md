@@ -689,7 +689,7 @@ MPLS는 경로 복구, 가상 사설 네트워크(virtual privatenetwork, VPN)�
 지연과 처리율 성능을 향상시키기 위해, 새로운 상호연결 구조와 네트워크 프로토콜들이 개발/사용되고 있다. 
 
 <figure style="width: 684px" class="align-center">
- 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/21.png' }}" alt=""> 
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/22.png' }}" alt=""> 
 </figure> 
 
 구조에는 위 그림처럼 완전 연결 토폴로지(fully connected topology), 선박 컨테이너(shipping container) 기반의 모듈화된 데이터 센터(modular data center, MDC) 등이 있다. 
@@ -709,7 +709,7 @@ MPLS는 경로 복구, 가상 사설 네트워크(virtual privatenetwork, VPN)�
 학생이 학교의 이더넷 스위치에 랩톱(laptop)을 연결하고, 웹 페이지(www.google.com)을 다운로드하는 것을 보여 준다. 
 
 <figure style="width: 782px" class="align-center">
- 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/22.png' }}" alt=""> 
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/23.png' }}" alt=""> 
 </figure> 
 
 ### 6.7.1. 시작하기: DHCP, UDP, IP 그리고 이더넷(Getting Started: DHCP, UDP, IP, and Ethernet)
