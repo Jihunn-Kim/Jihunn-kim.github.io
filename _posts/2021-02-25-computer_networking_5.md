@@ -1,6 +1,6 @@
 ---
 title: "컴퓨터 네트워킹 요약 - 5. 네트워크 계층: 제어 평면"
-last_modified_at: 2021-02-27
+last_modified_at: 2021-04-08
 show_date: true
 classes: wide
 excerpt: ""
@@ -10,9 +10,14 @@ categories:
 
 ## 5.1. 개요(Introduction)
 4장에서는 네트워크 계층: 데이터 평면을 보았다. 
+
 (1) 라우터별 제어(Per-router control): 라우팅 알고리즘이 모든 라우터 각각에서 동작한다. 
 라우터는 다른 라우터의 라우팅 구성요소와 통신하여 자신의 포워딩 테이블의 값을 계산하는 라우팅 구성요소를 가지고 있다. 
 5.3절, 5.4절의 OSPF, BGP 프로토콜이 이 라우터별 제어 방식을 기반으로 한다. 
+
+<figure style="width: 650px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/1.png' }}" alt=""> 
+</figure> 
 
 (2) 논리적으로 중앙 집중된 제어(Logically centralized control): 논리적으로 집중된 컨트롤러가 포워딩 테이블을 작성하고 
 이를 모든 라우터가 사용할 수 있도록 배포한다. 
@@ -20,6 +25,10 @@ categories:
 라우팅 알고리즘과 달리 CA는 서로 직접 상호 작용하지 않으며, 포워딩 테이블을 계산하는 데에도 적극적으로 참여하지 않는다. 
 
 논리적으로 중앙 집중된 제어란, 실제로 여러 개의 라우팅 서버에 라우팅 서비스가 구현된다 하더라도, 마치 하나의 중앙 서비스 지점에 있는 것처럼 서비스에 접근한다는 의미이다. 
+
+<figure style="width: 650px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/2.png' }}" alt=""> 
+</figure> 
 
 이 장에서는 포워딩 테이블이나 플로우 테이블이 어떻게 만들어지고, 유지, 설치되는지 알아본다. 
 
@@ -30,6 +39,10 @@ categories:
 라우팅 문제를 나타내는 데에는 노드와 에지를 사용한 무방향성 그래프가 사용된다. 
 노드는 라우터, 에지는 라우터들 간의 연결된 물리 링크를 나타낸다. 
 에지는 비용을 나타내는 값을 가지는데, 일반적으로 링크의 물리적인 거리, 링크 속도 등을 반영한다. 
+
+<figure style="width: 399px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/3.png' }}" alt=""> 
+</figure> 
 
 라우팅 알고리즘은 출발지와 목적지 간 최소 비용 경로를 찾는것을 목표로 한다. 
 라우팅 알고리즘을 분류하는 방법은 여러 가지가 있다. 
@@ -66,26 +79,24 @@ categories:
 다익스트라 알고리즘은 하나의 노드에서 네트워크 내 모든 다른 노드로의 최소 비용 경로를 계산한다. 
 힙 자료 구조를 사용하여 로그급수 시간으로 최솟값을 찾을 수 있다. 
 
+<figure style="width: 528px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/4.png' }}" alt=""> 
+</figure> 
+
 만약 링크 비용이 링크상에 전송 중인 부하를 반영한다면, 문제가 생길 수도 있다. 
-그림 5.5와 같이 동시에 라우터가 더 좋은 경로를 업데이트하여 트래픽을 전달하면, (c)-(d) 상태를 계속 반복할 수도 있다. 
+그림과 같이 동시에 라우터가 더 좋은 경로를 업데이트하여 트래픽을 전달하면, (c)-(d) 상태를 계속 반복할 수도 있다. 
 이와 같은 진동(oscillation) 문제는 링크 상태 알고리즘뿐 아니라 혼잡이나 지연 시간을 기반으로 링크 비용을 산출하는 모든 알고리즘에서 발생할 수 있다. 
 
 해결책으로는 모든 라우터가 동시에 링크 상태 알고리즘을 실행하지 못하도록 하는 방법이 있다. 
 링크 상태 정보를 송신하는 시각을 랜덤하게 결정한다. 
-
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 5.5 , 10</figcaption>
-</figure> 
 
 ### 5.2.2. 거리 벡터 라우팅 알고리즘(The Distance-Vector (DV) Routing Algorithm)
 DV 알고리즘에서, 각 노드는 직접 연결된 이웃으로부터 정보를 받고, 계산을 수행하며, 계산된 결과를 다시 그 이웃들에게 배포한다. 
 최소 비용은 벨만-포트(Bellman-Ford) 식을 사용한다. 
 x->y로 가는 경로, 이웃 노드(v)를 거치는 x->v->y 경로 중 작은 값을 택한다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 5.6 , 11</figcaption>
+<figure style="width: 670px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/5.png' }}" alt=""> 
 </figure> 
 
 DV 알고리즘에서는 어떤 노드가 자신에게 직접 연결된 링크 중 하나의 비용이 변경된 사실을 알게 되거나, 
@@ -96,9 +107,8 @@ DV 알고리즘에서는 어떤 노드가 자신에게 직접 연결된 링크 �
 그림 5.7의 링크 비용 감소(a), 링크 비용 증가(b)의 상황을 나타낸다. 
 여기서, DV 알고리즘을 이용한 y, z에서 x로의 거리 갱신을 살펴본다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 5.7 , 12</figcaption>
+<figure style="width: 520px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/6.png' }}" alt=""> 
 </figure> 
 
 (a) 링크 비용이 감소할 때는 문제가 생기지 않는다. 
@@ -171,7 +181,8 @@ OSPF는 복잡한 프로토콜이며, 다른 추가 사항은 [RFC 238]에 있�
 
 (1) 보안: 인증을 통해 신뢰할 수 있는 라우터들만이 AS 내부의 OSPF 프로토콜에 참여할 수 있다. 
 MD5 인증을 사용할 수 있다. 이는 모든 라우터에 설정된 공유 비밀키를 기반으로 한다. 
-각 OSPF 패킷에 대해서, 패킷 내용에 비밀키를 첨부한 후 MD5 해시를 계산한다(8장 내용). 
+
+각 OSPF 패킷에 대해서, 패킷 내용에 비밀키를 첨부한 후 MD5 해시를 계산한다. 
 이 해시 값이 포함된 패킷을 받은 라우터는, 미리 설정된 비밀키를 사용하여 패킷의 MD5 해시를 계산하고, 이를 패킷에 포함된 해시값과 비교하여 패킷을 인증한다. 
 Replay attack을 방지하기 위해 순서 번호가 MD5 인증과 함께 사용된다. 
 
@@ -183,6 +194,7 @@ OSPF 링크 상태 브로드캐스트 메커니즘에 새로운 형태의 링크
 (4) 단일 AS내에서의 계층 지원: AS은 계층적인 영역으로 구성될 수 있다. 
 한 영역 내의 라우터는 같은 영역 내의 라우터들에게만 링크 상태를 브로드캐스트 한다. 
 각 영역의 하나 이상의 영역 경계 라우터(area border router)가 영역 외부로의 패킷 라우팅을 책임진다. 
+
 백본(backbone) 영역은 모든 영역 경계 라우터(+ 다른 라우터)를 포함한 영역이다. 
 패킷은 먼저 영역 경계 라우터로 가고, 백본을 통과하여 목적지 영역으로 라우팅된다. 
 
@@ -195,6 +207,7 @@ OSPF 링크 상태 브로드캐스트 메커니즘에 새로운 형태의 링크
 패킷의 목적지가 AS 외부에 있을 때 BGP가 필요하다. 
 BGP에서는 패킷이 특정 목적지 주소를 향해서가 아니라, CIDR 형식으로 표현된, 주소의 앞쪽 접두부(prefix)를 향해 포워딩된다. 
 각 접두부는 서브넷이나 서브넷의 집합을 나타낸다. 
+
 라우터의 포워딩 테이블은 (x, I)와 같은 형식의 항목을 갖게 되는데, 
 x는 주소 접두부(예: 138.16.68/22), I는 라우터 인터페이스의 인터페이스 번호이다. 
 
@@ -213,18 +226,28 @@ BGP는 라우터에게 다음과 같은 수단을 제공한다.
 
 BGP에서 라우터의 쌍들은 반영구적인 TCP 연결을 통해 라우팅 정보를 교환한다. 
 이 연결은 BGP 연결이라고 불리고, 이를 통해 BGP 메세지가 전송된다. 
+
 그리고 두 개의 AS에 걸친 BGP 연결은 외부 BGP(external BGP, eBGP) 연결, 
 같은 AS 내의 BGP 연결은 내부 BGP(internal BGP, iBGP) 연결이라고 한다. 
 보통 게이트웨이 라우터들을 직접 연결하는 링크에는 eBGP 연결이 존재한다. 
 
+<figure style="width: 630px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/7.png' }}" alt=""> 
+</figure> 
+
 접두부 x에 대한 도달 가능성을 전파하기 위해 iBGP와 eBGP 연결이 모두 사용된다. 
 게이트웨이 라우터 s1이 인접 게이트웨이 라우터 s2에게 x가 s1 안에 존재한다고 eBGP 메세지를 통해 알린다. 
+
 s2는 iBGP 메세지를 통해 AS의 모든 라우터에게 x의 위치를 알린다. 
 주어진 라우터에서 목적지 서브넷까지 많은 경로가 있을 수 있다. 
 
 ### 5.4.3. 최고의 경로 결정(Determining the Best Routes
 BGP 연결을 통해 주소 접두부를 알릴 때, 몇몇 BGP 속성(BGP attributes)을 함께 포함한다. 
 중요한 속성 두 가지는 AS-PATH와 NEXT-HOP이다. 
+
+<figure style="width: 630px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/8.png' }}" alt=""> 
+</figure> 
 
 AS-PATH 속성에는 BGP 메세지가 통과하는 AS들의 리스트가 담는다. 
 이 속성은 메세지의 루프를 감지하는데 쓰일 수도 있는데, 경로 리스트에 자신의 AS가 있으면 메세지를 버린다. 
@@ -287,9 +310,8 @@ A, B, C는 백본 제공자 네트워크(backbone provider network)이다.
 특히, X는 서로 다른 두 제공자를 통해 네트워크의 다른 부분들과 연결되어 있으므로, 다중 홈(multi-homed) 엑세스 ISP라고도 한다. 
 A, B, C는 트래픽을 서로 직접 보내고, 그들의 사용자 네트워크에 완전한 BGP 정보를 제공한다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 5.13 , 13</figcaption>
+<figure style="width: 510px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/9.png' }}" alt=""> 
 </figure> 
  
 ISP 엑세스 네트워크(W, X, Y)로 들어오는 모든 트래픽은 그 네트워크를 목적지로 해야하며, 
@@ -308,7 +330,7 @@ X->C-Y의 경로가 있음에도 이 경로를 B에게 알리지 않는다.
 
 회사를 설립하였고, 제품 설명용 웹 서버, 직원용 메일 서버, DNS 서버를 포함한 많은 서버들이 있다고 가정하자. 
 전 세계 사람들이 웹사이트를 방문할 수 있도록, 직원들이 고객들과 메일을 주고받을 수 있도록 하고 싶다고 하자. 
- 
+
 이를 위해 먼저 지역 ISP와 계약하여 IP 주소 범위를 얻고 인터넷 연결을 해야 한다. 
 그리고 회사의 게이트웨이 라우터와 지역 ISP의 라우터를 연결한다. 
 물리적 연결과 IP 주소 범위를 얻으면 웹, 메일, DNS 서버 등에 IP 주소를 할당한다. 
@@ -321,7 +343,7 @@ DSN 서버의 IP 주소를 등록 기관에 제공한다.
 이는 지역 ISP와 계약할 때, 지역 ISP가 BGP를 사용하여 인터넷 라우터들에게 알림으로써 해결된다. 
 
 ## 5.5. 소프트웨어 정의 네트워크 제어 평면(The SDN Control Plane)
-이 절에서는 4.4절 처럼 네트워크의 포워딩 장비를 "패킷 스위치"(또는 스위치)라 한다. 
+이 절에서는 네트워크의 포워딩 장비를 "패킷 스위치"(또는 스위치)라 한다. 
 
 SDN 구조의 네 가지 특징은 다음과 같다. 
 (1) 플로우 기반 포워딩(Flow-based forwarding): 패킷 포워딩은 전송, 네트워크, 링크 계층의 헤더의 어떤 값들을 기반으로도 이루어질 수 있다. 
@@ -346,20 +368,17 @@ SDN은 스위치들의 플로우 테이블 항목들을 계산, 관리, 설치�
 하드웨어와 시스템 소프트웨어, 그리고 응용의 분리는 이 세 분야에 개방된 생태계를 만들어냈다고 평가된다. 
 데이터 평면 스위치, SDN 컨트롤러, 네트워크 제어 응용 각각을 서로 다른 제조사에서 제공하는 것으로 구성할 수 있다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 5.14 , 14</figcaption>
-</figure>
+<figure style="width: 660px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/10.png' }}" alt=""> 
+</figure> 
 
 ### 5.5.1. SDN 제어평면: SDN 컨트롤러와 SDN 네트워크 제어 응용들(The SDN Control Plane: SDN Controller and SDN Network-control Applications)
 컨트롤러의 기능은 크게 세 개의 계층으로 구성된다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 5.15 , 15</figcaption>
-</figure>
+<figure style="width: 610px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/11.png' }}" alt=""> 
+</figure> 
 
-하위 계층부터 알아보자. 
 (1) 통신 계층(A communication layer): SDN 컨트롤러와 제어받는 네트워크 장치들 사이의 통신을 담당한다. 
 컨트롤러가 장치들의 동작을 제어하려면, 이들 사이에 정보를 전달하는 프로토콜이 필요하다. 
 그리고 장치는 이벤트(예: 연결된 링크 동작 시작/단절)들을 컨트롤러에 알릴 수 있어야 한다. 
@@ -392,8 +411,8 @@ SDN은 스위치들의 플로우 테이블 항목들을 계산, 관리, 설치�
 라우팅 알고리즘이 바뀌면 모든 라우터의 소프트웨어를 바꿔야 한다. 
 
 SDN에서는 단순히 응용 제어 소프트웨어를 바꿈으로써 원하는 형태의 포워딩 방식을 구현할 수 있다. 
-예시 시나리오는 다음과 같다. 
 
+예시 시나리오는 다음과 같다. 
 1. 스위치에 링크 단절이 감지되면, 오픈플로우의 포트 상태 메세지를 사용하여 링크 상태의 변화를 SDN 컨트롤러에게 알린다. 
 2. 컨트롤러는 링크 상태 관리자에게 알리고, 관리자는 링크 상태 데이터베이스를 갱신한다. 
 3. 링크 상태 라우팅을 담당하는 네트워크 제어 응용은 링크 상태 변화에 대한 알림을 받는다. 
@@ -423,6 +442,11 @@ ICMP 메세지는 IP 페이로드로 전송된다.
 
 ### 5.7.1. 네트워크 관리 프레임워크(The Network Management Framework)
 네트워크 관리의 핵심 요소들은 다음과 같다. 
+
+<figure style="width: 610px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/12.png' }}" alt=""> 
+</figure> 
+
 (1) **관리 서버(managing server)**는 일반적으로 사람과 상호 작용하는 응용이다. 
 네트워크 관리 활동이 일어나는 장소로서, 관리 정보의 수집, 처리, 분석 등을 제어한다. 
 여기서 네트워크 동작을 제어하기 위한 작업이 시작되며, 네트워크 관리자는 네트워크 장치들과 상호 작용한다. 
@@ -445,9 +469,13 @@ ICMP 메세지는 IP 페이로드로 전송된다.
 ### 5.7.2. The Simple Network Management Protocol (SNMP)
 SNMP는 관리 서버와 에이전트 사이에서 네트워크 관리 제어 및 정보 메세지를 전달하기 위해 사용된다. 
 SNMP의 가장 흔한 사용 형태는 요청-응답 모드(request-response mode)이다. 
+
 관리 서버가 에이전트에게 MIB 객체 값 질의/수정 등을 하고 응답 받는다. 
 다른 형태는 에이전트가 예외 상황(링크 인터페이스 활성/비활성화)를 알리기 위해 트랩 메세지(trap message)를 서버에 보내는 것이다. 
 
 SNMP는 PDUs(protocol data units)로 알려진 여러 타입의 메세지를 정의한다. 
 MIB 객체 값 가져오기, 설정하기 등이 있다. 
 
+<figure style="width: 610px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-25-computer_networking_5/13.png' }}" alt=""> 
+</figure> 

@@ -1,6 +1,6 @@
 ---
 title: "컴퓨터 네트워킹 요약 - 6. 링크 계층: 링크, 접속망, 랜"
-last_modified_at: 2021-03-01
+last_modified_at: 2021-04-08
 show_date: true
 classes: wide
 excerpt: ""
@@ -9,13 +9,14 @@ categories:
 ---
 
 ## 6.1. 링크 계층 소개(Introduction to the Link Layer)
-링크 계층(즉, 2계층) 프로토콜을 실행하는 장치를 노드(node)라고 한다. 
+링크 계층(2계층) 프로토콜을 실행하는 장치를 노드(node)라고 한다. 
 호스트, 라우터, 스위치, WiFi AP(access point) 등이 노드가 될 수 있다. 
+
 통신 경로상의 인접한 노드들을 연결하는 통신 채널은 링크(link)라고 한다. 
 한 링크에서 전송 노드는 데이터그램을 링크 계층 프레임(frame)으로 캡슐화 해서 링크로 전송한다. 
 
 ### 6.1.1. 링크 계층이 제공하는 서비스(The Services Provided by the Link Layer)
-링크 계층 프로토콜이 제공할 수 있는 서비스는 다음과 같다. 
+
 (1) 프레임화(Framing): 네트워크 계층 데이터그램을 링크상으로 전송하기 전에 링크 계층 프레임에 캡슐화한다. 
 몇 가지 다른 프레임 형식이 있다. 
 
@@ -33,13 +34,13 @@ categories:
 ### 6.1.2. 링크 계층이 구현되는 위치(Where Is the Link Layer Implemented?)
 라우터의 라인 카드에 링크 계층을 구현하는 방법은 4장에서 다루었으므로, 이 장에서는 종단 시스템에서 구현하는 것에 대해서 살펴본다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 6.2, 16</figcaption>
-</figure>
+<figure style="width: 640px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/1.png' }}" alt=""> 
+</figure> 
 
 대부분 링크 계층은 네트워크 인터페이스 카드(network interface card, NIC)로 알려진 네트워크 어댑터(network adapter)에 구현된다. 
 어댑터는 보통 마더보드에 통합되어 있다. 
+
 어댑터에는 링크 계층 제어기가 있으며, 제어기는 링크 계층 서비스들(프레임화, 링크 접속 등)의 대다수가 구현되어 있는 특수 용도 칩이다. 
 링크 계층 제어기의 기능 대부분은 하드웨어로 구현된다. 
 
@@ -53,25 +54,27 @@ categories:
 
 오류 검출 비트를 사용하더라도 미검출된 비트 오류가 있을 수 있다. 
 더 향상된 오류 검출 및 정정 기술은 더 많은 수의 비트와 많은 계산이 필요하기에, 더 많은 오버헤드를 필요로 한다. 
-이 절에서는 패티리 검사(기본 개념), 체크섬(checksum, 보통 트랜스포트 계층이 사용), 순환중복검사(cyclic redundancy check, 보통 링크 계층이 사용)을 살펴본다. 
 
 ### 6.2.1. 패리티 검사(Parity Checks)
 데이터가 d비트를 갖고 있을 때, 짝수 패리티 기법은 한 비트를 추가하고 그 비트값을 d+1개의 비트들에서 1의 총개수가 짝수가 되도록 선택한다. 
 홀수 패리티 기법에서는 홀수 개가 되도록 선택한다. 
 
+<figure style="width: 300px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/2.png' }}" alt=""> 
+</figure> 
+
 짝수 패리티 기법에서 수신자는 비트 중 1의 개수가 짝수인지 계산한다. 
 하지만 다중 비트 오류는 잡아낼 수 없다. 
 
-측정에 의하면 오류는 단일 비트로 발생하기 보다는 종종 버스트(burst) 형태로 한꺼번에 몰려서 발생한다. 
+보통 오류는 단일 비트로 발생하기 보다는 종종 버스트(burst) 형태로 한꺼번에 몰려서 발생한다. 
 따라서 좀 더 강력한 오류 검출 기법이 필요하다. 
 
 오류 정정 기술에 대한 이해를 돕기 위해 단일 비트 패리티를 간단히 일반화 해보자. 
-그림 6.5는 데이터 d비트를 i개의 행과 j개의 열로 나눈 것이다. 
+아래 그림은 데이터 d비트를 i개의 행과 j개의 열로 나눈 것이다. 
  
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 6.5, 17</figcaption>
-</figure>
+<figure style="width: 496px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/3.png' }}" alt=""> 
+</figure> 
 
 각각의 행과 열에 대해 하나의 패리티값이 계산된다. 
 이와 같은 2차원 패리티 기법에서는 오류가 생긴 비트를 포함하는 행과 열에 패리티 오류가 생긴다. 
@@ -96,18 +99,18 @@ categories:
 반면에, 링크 계층에서의 오류 검출은 어댑터안의 전용 하드웨어로 구현되므로 더 복잡한 CRC 연산을 빨리 수행할 수 있다. 
 
 ### 6.2.3. 순환중복검사(Cyclic Redundancy Check, CRC)
-오늘날 네트워크에서 널리 사용되는 오류 검출 기술은 순환중복검사 코드를 사용한다. 
-CRC 코드는 다항식 코드(polynomial code)로도 알려져있는데, 그 이유는 전송되는 비트열에 있는 0과 1값을 계수로 갖는 다항식처럼 비트열을 생각할 수 있고, 
+네트워크에서 널리 사용되는 오류 검출 기술은 순환중복검사 코드이다. 
+CRC 코드는 다항식 코드(polynomial code)로도 알려져있다. 
+전송되는 비트열에 있는 0과 1값을 계수로 갖는 다항식처럼 비트열을 생각할 수 있고, 
 비트열에 적용되는 연산을 다항식 연산으로 이해하는 것이 가능하기 때문이다. 
 
 CRC 코드는 먼저 송신자와 수신자가 G로 표기되는 생성자(generator)로 알려진 r+1비트 패턴에 대해서 합의한다. 
 주어진 데이터 D에 대해 송신자는 r개의 추가 비트 R을 선택해서 D뒤에 덧붙인다. 
 수신자는 d+r개의 수신 비트를 G로 나눈다. 만일 나머지가 0이 아니면 오류가 발생한 것이다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 6.6, 18</figcaption>
-</figure>
+<figure style="width: 615px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/4.png' }}" alt=""> 
+</figure> 
 
 모든 CRC 검사는 덧셈의 올림(carry)이나 뺄셈의 빌림(borrow)이 없는 모듈로-2 연산을 사용한다. 
 이것은 덧셈과 뺄셈이 동일함을 뜻하며, 피연산자를 비트별로 XOR한 것과 같다. 
@@ -121,7 +124,7 @@ CRC 코드는 먼저 송신자와 수신자가 G로 표기되는 생성자(gener
 ```
 
 일반 이진 연산에서 처럼, 2<sup>k</sup>을 곱하는 것은 비트 패턴을 k개의 위치만큼 왼쪽으로 이동하는 것이다. 
-따라서 주어진 D와 R에 대해, D * 2<sup>k</sup> XOR R은 그림 6.6처럼 d+r비트 패턴을 만든다. 
+따라서 주어진 D와 R에 대해, D * 2<sup>k</sup> XOR R은 위의 그림처럼 d+r비트 패턴을 만든다. 
 
 송신자가 R을 계산하는 방법은 다음과 같다. 
 먼저 다음과 같은 식을 만족하는 n이 있도록 하는 R을 구한다.
@@ -135,15 +138,14 @@ CRC 코드는 먼저 송신자와 수신자가 G로 표기되는 생성자(gener
 즉, R을 다음처럼 계산할 수 있다. 
 > R = D * 2<sup>k</sup> / G 의 나머지
 
-그림 6.7은 D=101110, d=6, G=1001, r=3인 경우에 대한 예시이다. 
+아래 그림은 D=101110, d=6, G=1001, r=3인 경우에 대한 예시이다. 
 이 경우 전송되는 9개의 비트는 101110**011**이다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 6.7, 19</figcaption>
-</figure>
+<figure style="width: 356px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/5.png' }}" alt=""> 
+</figure> 
 
-국제 표준으로 8비트, 12비트, 16비트, 32비트의 생성자 G가 정의되어 있따. 
+국제 표준으로 8비트, 12비트, 16비트, 32비트의 생성자 G가 정의되어 있다. 
 다수의 링크 계층 IEEE 프로토콜에서 채택한 CRC-32 32비트 표준은 다음과 같은 생성자를 사용한다. 
 > GCRC-32=100000100110000010001110110110111
 
@@ -162,6 +164,10 @@ PPP(point-to-point protocol)와 HDLC(high-level data link control) 등이 이에
 이 절에서는 다중 접속 문제(multiple access problem), 즉 다수의 송수신 노드들의 공유되는 브로드캐스트 채널로의 접속을 조정하는 문제에 대해 살펴본다. 
 컴퓨터 네트워크에는 공유되는 브로드캐스트 채널로 보내는 노드들의 전송을 조정하기 위한 다중 접속 프로토콜(multiple access protocol)이 있다. 
 
+<figure style="width: 586px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/6.png' }}" alt=""> 
+</figure> 
+
 모든 노드들이 프레임을 전송할 수 있으므로, 2개 이상의 노드가 동시에 프레임을 전송할 수 있다. 
 이런 경우, 모든 노드는 동시에 여러 개의 프레임을 받게 되고, 전송된 프레임들이 각 수신자에서 충돌(collide)한다. 
 
@@ -172,10 +178,9 @@ PPP(point-to-point protocol)와 HDLC(high-level data link control) 등이 이에
 채널을 공유하는 모든 노드가 브로드캐스트 채널의 대역폭을 분할할 수 있게 해주는 기술을 세 가지가 있다. 
 여기선 채널이 N개 노드를 지원하고 채널 전송률이 R bps라고 하자. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 6.9, 20</figcaption>
-</figure>
+<figure style="width: 418px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/7.png' }}" alt=""> 
+</figure> 
 
 (1) 시분할 다중화(time division multiplexing, TDM)은 시간을 시간 프레임(time frame)으로 나누고, 
 각 시간 프레임을 N개의 시간 슬롯(time slot)으로 나눈다. 
@@ -206,6 +211,10 @@ CDMA 네트워크에서 코드들을 신중하게 선택하면 여러 노드들�
 * 각 노드는 언제 슬롯이 시작하는지 알 수 있도록 동기화되어 있다. 
 * 한 슬롯에서 프레임이 출동하면, 모든 노드는 그 슬롯이 끝나기 전에 충돌 발생을 알게 된다. 
 
+<figure style="width: 665px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/8.png' }}" alt=""> 
+</figure> 
+
 p를 확률(0과 1사이의 숫자)이라 하자, 각 노드에서 슬롯 알로하는 다음과 같이 동작한다. 
 * 노드는 전송할 프레임이 있으면, 다음 슬롯을 기다리고 그 슬롯에 프레임을 전송한다. 
 * 만약 충돌하지 않으면, 프레임을 재전송할 필요가 없다. 
@@ -229,19 +238,24 @@ CSMA와 CSMA/CD(CSMA with collision detection) 프로토콜은 아래 두 규칙
 (2) 충돌 검출(collision detection): 다른 노드가 방해(interfering) 프레임을 전송하고 있음을 검출하면, 
 자신의 전송을 중단하고 랜덤 시간 동안 기다린 후 유휴 시 감지 및 전송 과정(sense-and-transmit-when-idle cycle)을 반복한다. 
 
-그림 6.12는 브로드캐스트 채널의 종단간의 채널 전파 지연(channel propagation delay)를 보여준다. 
+아래 그림은 브로드캐스트 채널의 종단간의 채널 전파 지연(channel propagation delay)를 보여준다. 
 시간 t<sub>0</sub>에서 노드 B가 전송을 시작한다. 
+
 B가 전송한 비트들이 브로드캐스트 매체를 따라 양방향으로 전파되는데에 0보다 큰 시간이 필요하다. 
 시간 t<sub>1</sub>에서 B가 전송한 비트들이 D에 도달하지 못하여, D는 채널이 사용되지 않은 것으로 감지한다. 
 따라서 D가 비트를 전송하고 충돌이 일어난다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 6.12, 21</figcaption>
-</figure>
+<figure style="width: 488px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/9.png' }}" alt=""> 
+</figure> 
 
 #### 6.3.2.4. Carrier Sense Multiple Access with Collision Dection (CSMA/CD)
-CSMA/CD는 그림 6.12에서 충돌을 감지하면 자신의 전송을 취소한다. 
+CSMA/CD는 충돌을 감지하면 자신의 전송을 취소한다. 
+
+<figure style="width: 544px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/10.png' }}" alt=""> 
+</figure> 
+
 CSMA/CD 프로토콜은 다음과 같이 동작한다. 
 
 (1) 어댑터는 데이터그램을 프레임으로 만든 후, 자신의 버퍼에 저장한다. 
@@ -293,6 +307,10 @@ d<sub>trans</sub>는 최대 크기의 이더넷 프레임을 전송하는 데 �
 ### 6.3.4. DOCSIS: 케이블 인터넷 접속을 위한 링크 계층 프로토콜(DOCSIS: The Link-Layer Protocol for Cable Internet Access)
 케이블 접속망은 채널 분할, 랜덤 접속, 순번 프로토콜을 모두 사용한다. 
 
+<figure style="width: 593px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/11.png' }}" alt=""> 
+</figure> 
+
 (1.2.1절) 케이블 접속망에서는 보통 수천 개의 자택내 케이블 모델이 케이블망 중계소에 있는 케이블 모뎀 종단 시스템(CMTS)에 연결되어 있다. 
 DOCSIS(Data-Over-Cable Service Interface Specifications)은 케이블 접속망의 구조와 프로토콜들을 정의한다. 
 
@@ -326,6 +344,10 @@ CMTS는 하향 채널상으로 MAP 메세지로 알려진 제어 메세지를 �
 대부분의 랜(이더넷과 무선 랜 등)의 경우 MAC 주소는 길이가 6바이트이다. 
 주로 16진수로 표기되며, 주소의 각 바이트는 2개의 16진수로 표시된다(예: 1A-23-F9-CD-06-9B). 
 
+<figure style="width: 523px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/12.png' }}" alt=""> 
+</figure> 
+
 IEEE가 MAC 주소 공간을 관리하기 때문에 어떤 어댑터도 동일한 주소를 갖지 않는다. 
 그리고 IP 주소는 호스트가 이동하면(예: 다른 지역으로 이사) 변경되지만, MAC 주소는 변경되지 않는다. 
 
@@ -341,6 +363,10 @@ IEEE가 MAC 주소 공간을 관리하기 때문에 어떤 어댑터도 동일�
 #### 6.4.1.2. Address Resolution Protocol (ARP)
 네트워크 계층 주소와 링크 계층 주소 사이에 변환은 ARP에서 이루어진다. 
 ARP는 동일한 서브넷상에 있는 호스트나 라우터의 인터페이스의 IP 주소를 MAC 주소로 변환해준다. 
+
+<figure style="width: 592px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/13.png' }}" alt=""> 
+</figure> 
 
 각 호스트와 라우터는 자신의 메모리에 ARP 테이블을 갖고 있다. 
 이 테이블은 IP 주소와 MAC 주소 간의 매핑 정보를 포함한다. 
@@ -369,16 +395,21 @@ IP 주소에 해당하는 호스트/라우터가 MAC 주소를 포함하여 응�
 ### 6.4.2. 이더넷(Ethernet)
 인터넷이 글로벌 네트워킹에 대한 것이라면, 이더넷은 근거리 네트워킹에 대한 것이다. 
 1990년대 후반경에 대부분의 회사와 대학에서는 랜을 허브(hub) 기반의 스타 토폴로지를 사용하는 이더넷으로 대체하였다. 
+
 허브는 프레임이 아닌 각 비트에 대한 처리를 하는 물리 계층 장치이다. 
 비트가 인터페이스에 도착하면, 허브는 이 비트를 재생하고 에너지 세기를 증가시킨 후 다른 모든 인터페이스로 전송한다. 
 
-2000년 초반에 이더넷은 여전히 스타 토폴로지를 사용했지만, 중앙의 헣브가 스위치(switch)로 대체되었다. 
+2000년 초반에 이더넷은 여전히 스타 토폴로지를 사용했지만, 중앙의 허브가 스위치(switch)로 대체되었다. 
 당분간 스위치를 "충돌 없는" 장치일 뿐만 아니라 전달 패킷 스위치라는 정도로 이해하자. 
 스위치는 3계층까지 동작하는 라우터와 달리 2계층까지만 동작한다. 
 
 #### 6.4.2.1. 이더넷 프레임 구조(Ethernet Frame Structure)
 송신 어댑터는 IP 데이터그램을 이더넷 프레임에 캡슐화하고 그 프레임을 물리 계층으로 전달한다. 
 수신 어댑터는 그 프레임을 물리 계층으로부터 받아서 IP 데이터그램을 추출한 후에 그 IP 데이터그램을 네트워크 계층으로 전달한다. 
+
+<figure style="width: 586px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/14.png' }}" alt=""> 
+</figure> 
 
 이와 관련하여, 이더넷의 프레임 6개 필드는 다음과 같다. 
 (1) 데이터 필드: 이 필드는 IP 데이터그램을 운반한다. 
@@ -400,17 +431,18 @@ IP 주소에 해당하는 호스트/라우터가 MAC 주소를 포함하여 응�
 이더넷 프레임이 목적지 어댑터에 도착하면, 어댑터는 어떤 네트워크 계층 프로토콜로 데이터 필드의 내용을 전달해야 할지 구분할 필요가 있다. 
 예를 들어, ARP 프로토콜은 자신만의 타입 번호를 갖고 있으며, ARP 패킷은 ARP 프로토콜로 역다중화된다. 
 
-(5) 순환중복검사(CRC): (6.2.3절) 목적지 어댑터는 CRC를 통해 프레임에 오류가 생겼는지 검출한다. 
+(5) 순환중복검사(CRC): 목적지 어댑터는 CRC를 통해 프레임에 오류가 생겼는지 검출한다. 
 
 (6) 프리앰블(Preamble): 이더넷 프레임은 8바이트의 프리앰블 필드로 시작한다. 
 프리앰블의 첫 7바이트는 10101010 값을 가진다. 마지막 바이트는 10101011이다. 
 
 프리앰블의 첫 7바이트는 수신 어댑터를 깨우고, 수신자의 클록을 송신자의 클록에 동기화시키는 역활을 한다. 
-이런 일은 송신 어댑터가 완벽할 수 없으므로 프레임을 목적지 속도에 맞게 정확하게 전송할 수 없기 때문이다. 
+이런 일은 송신 어댑터가 완벽할 수 없으므로 프레임을 목적지 속도에 맞게 정확하게 전송할 수 없기 때문에 필요하다. 
+
 즉, 목표 속도에서 어느 정도 벗어날 수 있으며, 이 정도는 다른 어댑터들에게 미리 알려져 있지 않다. 
 따라서 수신 어댑터는 프리앰블의 첫 7바이트에 있는 비트들에 맞춤으로써 송신 어댑터의 클록에 맞출 수 있다. 
 
-모든 이더넷 기술은 네트워크 계층게에 비연결형 서비스(connectionless service)를 제공한다. 
+모든 이더넷 기술은 네트워크 계층에 비연결형 서비스(connectionless service)를 제공한다. 
 즉, 어댑터끼리 핸드셰이킹하지 않고 프레임을 전송한다. 
 
 이더넷 기술은 네트워크 계층에게 비신뢰적인 서비스를 제공한다. 
@@ -451,6 +483,7 @@ IEEE 802.3z라고 알려진 기가비트 이더넷의 표준은 다음과 같다
 ### 6.4.3. 링크 계층 스위치(Link-Layer Switches)
 스위치의 역활은 들어오는 링크 계층 프레임을 수신해서 출력 링크로 전달하는 것이다. 
 스위치는 서브넷의 호스트/라우터들에게 투명(transparent)하다. 
+
 호스트/라우터는 프레임을 스위치가 아닌 다른 호스트/라우터를 목적지로 해서 랜상으로 보내며, 중간에 스위치가 프레임을 받아서 전달하는 것을 알지 못한다. 
 프레임이 스위치 출력 인터페이스에 도착하는 속도가 그 인터페이스의 링크 용량을 일시적으로 초과할 수 있다. 
 이 문제를 해결하기 위해, 스위치 출력 인터페이스는 버퍼를 갖고 있다. 
@@ -461,6 +494,10 @@ IEEE 802.3z라고 알려진 기가비트 이더넷의 표준은 다음과 같다
 스위치의 여과와 전달은 스위치 테이블(switch table)을 이용한다. 
 
 스위치 테이블의 항목에는 (1) MAC 주고, (2) 그 MAC 주소로 가게 하는 스위치 인터페이스, (3) 해당 항목이 만들어진 시점에 대한 정보가 있다. 
+
+<figure style="width: 589px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/15.png' }}" alt=""> 
+</figure> 
 
 스위치는 프레임이 인터페이스 x에 도착했을 때 다음 세 가지 행동을 할 수 있다. 
 (1) 테이블에 목적지 주소에 대한 항목이 없다. 이 경우 프레임의 복사본을 인터페이스 x를 제외한 모든 인터페이스의 앞에 있는 출력 버퍼로 전달한다. 
@@ -490,7 +527,7 @@ IEEE 802.3z라고 알려진 기가비트 이더넷의 표준은 다음과 같다
 버스나 허브 기반의 스타 토폴로지와 같은 브로드캐스트 링크가 아닌, 스위치를 사용하면 다음과 같은 장점이 있다. 
 
 (1) 충돌 제거(Elimination of collisions): 스위치로 구축된 랜에는 충돌로 낭비되는 대역폭이 없다. 
-스위치는 프레임을 버퍼링하여 어느 시점이든 세그먼테으 하나 이상의 프레임을 전송하지 않는다. 
+스위치는 프레임을 버퍼링하여 어느 시점이든 세그먼테에 하나 이상의 프레임을 전송하지 않는다. 
 스위치의 최대 총처리율은 모든 스위치 인터페이스 속도의 합이다. 
 
 (2) 이질적인 링크들(Heterogeneous links): 스위치는 링크들을 별개로 분리하기 때문에 랜의 각 링크는 상이한 속도로 동작할 수 있으며 상이한 매체를 사용할 수 있다. 
@@ -519,14 +556,14 @@ IP 주소를 기반으로 3계층 데이터그램 뿐만 아니라 MAC 주소를
 그리고 브로드캐스트 트래픽의 폭주에 대비한 방안을 제공하지 않는다. 
 
 라우터의 장단점은 다음과 같다. 
-네트워크에 중복된 경로가 있을 때도 패킷은 라우터를 따라 순환하지 않는다(그러나 라우터 테이블이 잘못 구성되면 순환할 수 있다. IP는 순환을 제한하기 위해 헤더 필드를 사용한다.). 
+네트워크에 중복된 경로가 있을 때도 패킷은 라우터를 따라 순환하지 않는다(라우터 테이블이 잘못 구성되면 순환할 수 있기에, IP는 순환을 제한하기 위해 헤더 필드를 사용한다). 
 토폴로지에 제한이 없으며, 출발지와 목적지 간의 최상의 경로를 사용할 수 있다. 
 브로드캐스트 트래픽의 폭주에 대비한 방화벽 보호 기능이 있다. 
 
 그러나, 라우터는 플러그 앤 플레이가 아니다. 
 또한 3계층 필드까지 처리해야 하므로 스위치보다 패킷당 처리 시간이 더 크다. 
 
-|   || 허브 | 라우터 | 스위치 |
+|   | 허브 | 라우터 | 스위치 |
 |:--------:|:-------:|:--------:|:--------:|
 | 트래픽 격리 | 아니요 | 예 | 예 |
 | 플러그 앤 플레이 | 예 | 아니요 | 예 |
@@ -535,37 +572,40 @@ IP 주소를 기반으로 3계층 데이터그램 뿐만 아니라 MAC 주소를
 ### 6.4.4. 가상 근거리 네트워크(Virtual Local Area Networks, VLANs)
 VLAN을 지원하는 스위치는 하나의 물리적 근거리 네트워크 기반구조(infrastructure)상에서 여러 개의 가상 근거리 네트워크들을 정의할 수 있게 한다. 
 VLAN에서는 네트워크 관리자가 스위치 포트(인터페이스)를 그룹으로 나눈다. 
-각 그룹은 하나의 VLAN을 구성하며, 한 VLAN의 포트들은 하나의 브로드캐스트 도메인을 형성한다(즉, 
-한 포트로부터의 보로드캐스트 트래픽은 그 그룹의 다른 포트에만 도달할 수 있다). 
+
+<figure style="width: 400px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/16.png' }}" alt=""> 
+</figure> 
+
+각 그룹은 하나의 VLAN을 구성하며, 한 VLAN의 포트들은 하나의 브로드캐스트 도메인을 형성한다. 
+즉, 한 포트로부터의 보로드캐스트 트래픽은 그 그룹의 다른 포트에만 도달할 수 있다. 
 
 네트워크 관리자는 스위치 관리 소프트웨어를 사용해서 포트가 어떤 VLAN에 속하는지 선언할 수 있어, 
 그룹에 속한 사용자를 다른 사용자로 이동시킬 때, 물리적 케이블의 연결을 변경시킬 필요가 없다. 
 
 포트-VLAN 매핑 테이블은 스위치에서 관리되며, 스위치 하드웨어는 같은 VLAN에 속한 포트들 간에만 프레임을 전달한다. 
 
-다른 그룹간의 트래픽은 VLAN 스위치 포트(예: 그림 6.25의 포트 1)을 외부 라우터에 연결하고, 이 포트를 다른 그룹 모두에 속하게 하면 된다. 
+다른 그룹간의 트래픽은 VLAN 스위치 포트(예: 아래 그림의 포트 1)을 외부 라우터에 연결하고, 이 포트를 다른 그룹 모두에 속하게 하면 된다. 
 다행히도, 스위치 생산자들은 단일 장치에 VLAN 스위치와 라우터를 모두 포함시킴으로써(별도의 외부 라우터가 필요 없도록) 네트워크 관리자가 이러한 구성을 쉽게 할 수 있게 해준다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 6.25, 22</figcaption>
-</figure>
+<figure style="width: 648px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/17.png' }}" alt=""> 
+</figure> 
 
-VLAN 스위치들을 연결하는 확장 가능한 방법으로는, (그림 6.26 a)각 스위치의 포트 하나를 같은 그룹에 속하게 하고 이들 포트를 서로 연결하는 방법이다. 
+VLAN 스위치들을 연결하는 확장 가능한 방법으로는, 각 스위치의 포트 하나를 같은 그룹에 속하게 하고 이들 포트를 서로 연결하는 방법이다. 
 하지만 이 방법은 N개의 VLAN이 있는 경우, 연결을 위해 스위치 마다 N개의 포트들이 필요하다. 
 
-(그림 6.26 b)다른 방법은 VLAN 트렁킹(VLAN trunking)이 있다. 
-이 방법에서는 스위치 마다 하나의 특수 포트가 2개의 VLAN 스위치를 연결하는 트렁크 포트(trunk port)로 구성되어 있따. 
+다른 방법은 VLAN 트렁킹(VLAN trunking)이 있다. 
+이 방법에서는 스위치 마다 하나의 특수 포트가 2개의 VLAN 스위치를 연결하는 트렁크 포트(trunk port)로 구성되어 있다. 
 트렁크 포트는 모든 VLAN에 속하며, 한 VLAN에서 전송한 프레임들을 트렁크 링크를 통해 다른 스위치로 전달해 준다. 
 
 트렁크 포트로 온 프레임이 어떤 VLAN에 속하는지 알 수 있도록, IEEE는 확장된 형태의 이더넷 프레임 형식인 802.1Q를 정의했다. 
 프레임이 속한 VLAN을 식별해주는 VLAN 태그를 헤더에 추가하였다. 
 VLAN 태그는 송신 스위치에 의해 프레임에 추가되며, 수신 스위치에 의해 사용되고 제거된다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 6.26, 23</figcaption>
-</figure>
+<figure style="width: 671px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/18.png' }}" alt=""> 
+</figure> 
 
 ## 6.5. 링크 가상화: 링크 계층으로서의 네트워크(Link Virtualization: A Network as a Link Layer)
 이 장을 시작할 때, 서로 통신하는 2개의 호스트를 연결하는 물리적인 선(wire)을 링크로 간주하였다. 
@@ -587,6 +627,10 @@ MPLS는 자체적인 패킷 형식과 전달 방식을 사용하며, 네트워�
 MPLS의 목표는 가능한 경우에 데이터그램을 선택적으로 레이블링(labeling)해서, 라우터로 하여금 
 목적지 IP 주소가 아닌 고정 길이 레이블(labels)을 기반으로 데이터그램을 전달할 수 있도록 목적지 기반 IP 데이터그램 전달 하부구조를 확장시키는 것이다. 
 
+<figure style="width: 587px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/19.png' }}" alt=""> 
+</figure> 
+
 MPLS 가능(MPLS-capable) 라우터에 의해 처리되는 링크 계층 프레임에는 MPLS 헤더가 추가된다. 
 이는 2계층(예: 이더넷) 헤더와 3계층(예: IP)헤더 사이에 위치한다. 
 이 프레임은 MPLS 가능 라우터들 사이에서만 전송될 수 있다. 
@@ -595,17 +639,17 @@ MPLS 가능 라우터는 MPLS 레이블을 포워딩 테이블에서 찾아 출�
 그렇기에 레이블 스위치 라우터(label-switched router)라고도 불린다. 
 
 MPLS 가능 라우터는 IP 주소를 볼 필요도 없고, 포워딩 테이블에서 최장 프리픽스 대응을 찾을 필요도 없다. 
-그림 6.29에서 MPLS 가능 라우터 R1부터 R4는 패킷의 IP 헤더를 건드리지 않고 동작한다. 
-MPLS 가능 라우터들 간에 테이블을 분배하는 시그널링 프로토콜에 대한 자세한 사항은 이 책에서 다루지 않는다(RFC 3468 참고). 
+아래 그림에서 MPLS 가능 라우터 R1부터 R4는 패킷의 IP 헤더를 건드리지 않고 동작한다. 
+MPLS 가능 라우터들 간에 테이블을 분배하는 시그널링 프로토콜에 대한 자세한 사항은 RFC 3468 참고하라. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 6.29, 24</figcaption>
-</figure>
+<figure style="width: 589px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/20.png' }}" alt=""> 
+</figure> 
 
 MPLS는 스위칭 속도를 향상시키고 트래픽 관리 기능을 제공한다. 
 5장에서 다룬 IP 라우팅 프로토콜은 목적지로의 최소비용경로 하나만 지정한다. 
-반면 MPLS는 여러 경로를 제공하기 때문에(그림 6.29 R4 테이블의 목적지 A가 두개), 네트워크 운영자는 트래픽을 여러 경로로 보낼 수 있다. 
+
+반면 MPLS는 여러 경로를 제공하기 때문에(위 그림 R4 테이블의 목적지 A가 두개), 네트워크 운영자는 트래픽을 여러 경로로 보낼 수 있다. 
 이것은 MPLS를 사용해서 트래픽 엔지니어링(traffic engineering)을 제공하는 하나의 방식이다. 
 
 MPLS는 경로 복구, 가상 사설 네트워크(virtual privatenetwork, VPN)을 구현하는 데도 사용될 수 있다. 
@@ -632,10 +676,9 @@ MPLS는 경로 복구, 가상 사설 네트워크(virtual privatenetwork, VPN)�
 ### 6.6.2. 계층적 구조(Hierarchical Architecture)
 그림 6.30과 같이 계층구조 설계를 사용함으로써 데이터 센터는 수십만 대의 호스트까지 확장할 수 있다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 6.30, 25</figcaption>
-</figure>
+<figure style="width: 681px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/21.png' }}" alt=""> 
+</figure> 
 
 데이터 센터는 애플리케이션의 가용성을 높이기 위해 여분의 네트워크 장비와 링크를 포함시킨다. 
 예를 들어, TOR 스위치는 2개의 2단 스위치에 연결되며, 접속 라우터, 1단 스위치, 2단 스위치를 이중으로 구성할 수 있다. 
@@ -645,12 +688,11 @@ MPLS는 경로 복구, 가상 사설 네트워크(virtual privatenetwork, VPN)�
 ### 6.6.3. 데이터 센터 네트워크 동향(Trends in Data Center Networking)
 지연과 처리율 성능을 향상시키기 위해, 새로운 상호연결 구조와 네트워크 프로토콜들이 개발/사용되고 있다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 6.31, 26</figcaption>
-</figure>
+<figure style="width: 684px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/21.png' }}" alt=""> 
+</figure> 
 
-구조에는 그림 6.31처럼 완전 연결 토폴로지(fully connected topology), 선박 컨테이너(shipping container) 기반의 모듈화된 데이터 센터(modular data center, MDC) 등이 있다. 
+구조에는 위 그림처럼 완전 연결 토폴로지(fully connected topology), 선박 컨테이너(shipping container) 기반의 모듈화된 데이터 센터(modular data center, MDC) 등이 있다. 
 
 라우팅 프로토콜 방법에는 호스트마다 네트워크 인터페이스 카드를 여러 개 설치한 후, 여러 대의 스위치에 연결하는 방법이 있다. 
 그러면 호스트들이 알아서 스위치 간 트래픽 라우팅을 할 수 있다. 
@@ -664,16 +706,15 @@ MPLS는 경로 복구, 가상 사설 네트워크(virtual privatenetwork, VPN)�
 지금까지 내용을 총정리하고자 한다. 
 예제로, 웹 페이지를 다운로드 하는 요청을 해결하는 것과 관련된 프로토콜에 대해 살펴본다. 
 
-그림 6.32는 학생이 학교의 이더넷 스위치에 랩톱(laptop)을 연결하고, 웹 페이지(www.google.com)을 다운로드하는 것을 보여 준다. 
+학생이 학교의 이더넷 스위치에 랩톱(laptop)을 연결하고, 웹 페이지(www.google.com)을 다운로드하는 것을 보여 준다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>그림 6.32, 27</figcaption>
-</figure>
+<figure style="width: 782px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-27-computer_networking_6/22.png' }}" alt=""> 
+</figure> 
 
 ### 6.7.1. 시작하기: DHCP, UDP, IP 그리고 이더넷(Getting Started: DHCP, UDP, IP, and Ethernet)
-그림 6.32처럼 학생은 랩톱을 켠 후 학교 이더넷 스위치에 연결되어 있는 이더넷 케이블에 연결한다. 
-이 예제에서는 학교 라우터는 ISP comcast.net에 연결되어 있고, comcast.net은 이 학교에 DNS 서비스를 제공하며, DNS 서버는 
+학생은 랩톱을 켠 후 학교 이더넷 스위치에 연결되어 있는 이더넷 케이블에 연결한다. 
+여기서, 학교 라우터는 ISP comcast.net에 연결되어 있고, comcast.net은 이 학교에 DNS 서비스를 제공하며, DNS 서버는 
 학교 네트워크가 아닌 comcast 네트워크에 있다. DHCP 서버는 라우터에서 실행되고 있다고 가정하자(일반적인 상황임).
 
 학생이 랩톱을 네트워크에 연결하면, 랩톱은 로컬 DHCP 서버로부터 IP 주소를 얻기 위해 DHCP 프로토콜을 실행한다. 

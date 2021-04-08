@@ -1,6 +1,6 @@
 ---
 title: "컴퓨터 네트워킹 요약 - 2. 애플리케이션 계층"
-last_modified_at: 2021-03-25
+last_modified_at: 2021-04-08
 show_date: true
 classes: wide
 excerpt: ""
@@ -22,6 +22,7 @@ categories:
 
 클라이언트-서버 구조(client-server architecture)에서 항상 켜져 있는 호스트를 서버라고 부르며, 
 이는 클라이언트라 불리는 다른 호스트들의 요청을 처리한다.  
+
 클라이언트도 가끔 항상 켜져 있을 수 있다. 
 예를 들어, 클라이언트 호스트에서 실행되는 브라우저는 항상 켜진 웹 서버로 서비스를 요청하는 웹 애플리케이션이다. 
 
@@ -57,6 +58,10 @@ P2P 파일 공유에서는, 파일을 내려받는 피어를 클라이언트, �
 프로세스는 소켓(socket)을 통해 네트워크로 메세지를 보내고 받는다. 
 소켓은 호스트의 애플리케이션 계층과 트랜스포트 계층 간의 인터페이스다. 
 또한 애플리케이션과 네트워크 사이의 API(Application Programming Interface)라고도 한다. 
+
+<figure style="width: 680px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/1.png' }}" alt=""> 
+</figure> 
 
 애플리케이션 개발자는 소켓의 애플리케이션 계층에 대한 모든 통제권을 갖지만, 
 소켓의 트랜스포트 계층에 대한 통제권은 거의 갖지 못한다. 
@@ -117,10 +122,14 @@ UDP는 최소의 서비스 모델을 가진 간단한 전송 프로토콜이다.
 UDP는 핸드셰이킹을 하지 않으며, 비신뢰적인 전송 서비스(메세지가 수신 소켓에 도착하는 것을 보장하지 않음)를 제공한다. 
 게다가 수신 소켓에 도착하는 메세지들의 순서가 뒤바뀔 수도 있다. 
 
-UDP는 혼잡제어 방식(3장 내용)을 포함하지 않기에, 송신 측이 데이터를 원하는 속도로 하위 계층(네트워크 계층_으로 보낼 수 있다. 
+UDP는 혼잡제어 방식(3장 내용)을 포함하지 않기에, 송신 측이 데이터를 원하는 속도로 하위 계층(네트워크 계층)으로 보낼 수 있다. 
 
 #### 2.1.4.3. 인터넷 트랜스포트 프로토콜이 제공하지 않는 서비스(Services Not Provided by Internet Transport Protocols)
 오늘날의 인터넷은 때로 시간-민감(time-sensitive) 애플리케이션들에게 만족스런 서비스를 제공할 수 있으나, 시간 혹은 대역폭 보장을 제공할 수는 없다. 
+
+<figure style="width: 660px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/2.png' }}" alt=""> 
+</figure> 
 
 ### 2.1.5. 애플리케이션 계층 프로토콜(Application-Layer Protocols)
 애플리케이션 계층 프로토콜은 다른 종단 시스템에서 실행되는 애플리케이션의 프로세스가 서로 메세지를 보내는 방법을 정의한다. 
@@ -190,6 +199,10 @@ TCP 연결 요청을 하고, 이에 대한 응답이 받고, 이번에는 파일
 패킷이 클라이언트로부터 서버까지 가고, 다시 클라이언트로 되돌아오는 데 걸리는 시간을 RTT(round-trip time)라고 한다. 
 HTML 파일을 요청하고 수신하는 데에는, TCP 연결 설정(요청/응답)에 1 RTT, 파일 요청-전송에 1 RTT(+ 파일크기에 따른 전송 시간)가 필요하다. 
 
+<figure style="width: 570px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/3.png' }}" alt=""> 
+</figure> 
+
 #### 2.2.2.2. 지속 연결 HTTP
 비지속 연결은 각 요청 객체에 대한 새로운 연결이 설정되고 유지되어야 하는 단점이 있다. 
 이는 많은 클라이언트의 요청을 동시에 서비스하는 웹 서버에게 부담을 줄 수 있다. 
@@ -256,6 +269,10 @@ HTTP 서버는 상태를 유지하지 않음으로써 서버 설계를 간편하
 브라우저가 Set-cookie 헤더가 있는 응답 메세지를 받으면, 특정한 쿠키 파일에 서버의 호스트 네임과 Set-cookie 헤더와 식별번호를 기록한다. 
 이후부터는 요청 메세지에 식별번호를 포함하는 쿠키 헤더 파일을 넣는다. 
 
+<figure style="width: 680px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/4.png' }}" alt=""> 
+</figure> 
+
 이런식으로 서버가 사용자의 활동을 추적할 수 있고, 
 사용자 식별, 제품 추천 등을 할 수 있다. 
 
@@ -269,12 +286,21 @@ HTTP 서버는 상태를 유지하지 않음으로써 서버 설계를 간편하
 3. 없다면 웹 캐시가 서버와 TCP 연결을 통해 객체를 요청하고 받는다. 
 4. 웹 캐시는 받은 객체를 자신의 저장장치에 저장하고, 브라우저에게 객체를 보낸다. 
 
+<figure style="width: 420px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/5.png' }}" alt=""> 
+</figure> 
+
 웹 캐싱은 다음과 같은 장점이 있다. 
 첫째, 요구에 대한 응답 시간을 줄일 수 있다. 
 둘째, 기관 네트워크에서 인터넷으로 접속하는 링크상의 웹 트래픽을 줄일 수 있다. 
+
 예를 들어, 기관 네트워크가 LAN이며, 기관 내의 호스트가 인터넷에 접근하려면 기관 라우터와 인터넷 라우터의 링크를 무조건 접근해야 한다고 하자. 
 이때, 기관 내 여러 호스트가 인터넷에 동시 접근하여, 이 링크에 트래픽 강도가 올라갈 수 있다. 
 기관 내에 웹 캐시를 둔다면 사본이 있는 경우 인터넷에 접근할 필요가 없어 트래픽 강도를 줄일 수 있다. 
+
+<figure style="width: 550px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/6.png' }}" alt=""> 
+</figure> 
 
 ### 2.2.5.1. 조건부 GET(The Conditional GET)
 웹 캐시 내부에 있는 객체의 사본이 최신의 것이 아닐 수 있다. 
@@ -296,6 +322,11 @@ HTTP 서버는 상태를 유지하지 않음으로써 서버 설계를 간편하
 각 사용자는 메일 서버안에 메일박스(mailbox)를 갖고 있다. 
 일반 메세지는 송신자의 에이전트에서 전달이 시작되고, 송신자의 메일 서버를 거친 후에 수신자의 메일 서버로 전달된다. 
 그리고 수신자의 메일박스에 저장된다. 
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/7.png' }}" alt=""> 
+	<figcaption>오늘날의 메일 서버는 2.3.4절</figcaption> 
+</figure> 
 
 SMTP는 인터넷 전자메일을 위한 애플리케이션 계층 프로토콜이다. 
 송신자의 메일 서버로부터 수신자의 메일 서버로 메세지를 전송한다. 
@@ -347,6 +378,10 @@ Subject: Searching for the meaning of life.
 1. 송신자가 송신자의 메일 서버에 SMTP를 통하여 메세지를 보낸다. 
 2. 송신자의 메일 서버에서 수신자의 메일 서버로 SMTP를 통해 메세지가 보내진다. 
 3. 수신자가 수신자의 메일 서버에서 메세지를 받는다. 
+
+<figure style="width: 660px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/8.png' }}" alt=""> 
+</figure> 
 
 수신자가 메세지를 받을 때는 SMTP를 쓰지 못하고 POP3(Post Office Protocol 3), IMAP(Internet Mail Access Protocol) 등을 사용한다. 
 SMTP가 푸시 프로토콜인 반면, 메세지를 얻는 것은 풀 동작이기 때문이다. 
@@ -425,28 +460,33 @@ DNS는 많은 서버를 이용하고, 이들을 계층 형태로 구성하며 �
 대체로 세 유형의 DNS 서버가 있다. 즉, 루트(root) DNS 서버, 
 최상위 레벨 도메인(TLD, top-level domain) DNS 서버, 책임(authoritative) DNS 서버이다. 
 
+<figure style="width: 580px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/9.png' }}" alt=""> 
+</figure> 
+
 루트 DNS 서버: 인터넷에는 400개 이상의 루트 DNS 서버가 있다. 
 이 루트 서버들은 13개의 다른 기관에서 관리된다. 
 
 최상위 레벨 도메인 DNS 서버: com, org 같은 상위 레벨 도메인과 kr, uk 같은 모든 국가의 상위 레벨 도메인에 대한 TLD 서버가 있다. 
-TLS를 지원하는 네트워크 인프라는 크고 복잡하다. 
 
 책임 DNS 서버: 인터넷에서 접근하기 쉬운 호스트(예: 웹, 메일 서버)를 가진 기관은 공개적인 DNS 레코드를 제공해야 한다. 
 기관의 책임 DNS 서버는 이 DNS 레코드를 갖고 있다. 
 
 이 세 부류들의 서버들은 서로 상호 작용을 한다. 
 어떤 클라이언트가 www.amazon.com의 IP 주소를 원한다고 가정하자. 
-(1) 먼저 이 클라이언트는 루트 서버 중 하나에 접속하면, 루트 서버는 최상위 레벨 도메인 com을 갖는 TLD 서버 IP 주소를 보낸다. 
-(2) 그다음 클라이언트는 이 TLD 서버 중 하나에 접속하고, 서버는 도메인 amazon.com을 가진 책임 서버의 IP 주소를 보낸다. 
-(3) 클라이언트가 책입 서버 중 하나에 접속하면, 서버는 www.amazon.com 의 IP 주소를 보낸다. 
+1. 클라이언트는 루트 서버 중 하나에 접속하고, 루트 서버는 최상위 레벨 도메인 com을 갖는 TLD 서버 IP 주소를 보낸다.
+2. 클라이언트는 이 TLD 서버 중 하나에 접속하고, 서버는 도메인 amazon.com을 가진 책임 서버의 IP 주소를 보낸다.
+3. 클라이언트가 책임 서버 중 하나에 접속하면, 서버는 www.amazon.com 의 IP 주소를 보낸다.
 
 DNS의 다른 중요한 형태는 로컬 DNS 서버이다. 
 ISP들은 로컬 DNS 서버를 갖는다. 
+
 호스트가 DNS 질의를 보내면, 이 질의는 먼저 프록시로 동작하는 로컬 DNS 서버에게 전달되고, 
-로컬 DNS 서버는 위의 (1)(2)(3) 같은 동작을 한 후 IP를 돌려준다. 
+로컬 DNS 서버는 위의 1,2,3 같은 동작을 한 후 IP를 돌려준다. 
 
 이전 예에서 TLD 서버는 호스트 이름에 대한 책임 서버를 안다고 가정했다. 
 그러나 일반적으로 그렇지 않다. 
+
 대신 TLD 서버는 책임 서버를 아는 중간 DNS 서버만 알고 있다. 
 따라서 책임 서버에 도달할 때까지 반복적으로 질의가 이루어진다. 
 
@@ -455,6 +495,10 @@ ISP들은 로컬 DNS 서버를 갖는다.
 
 이론상, DNS 질의는 반복적이고 재귀적일 수 있다. 
 일반적으로 요청하는 호스트로부터 로컬 DNS 서버까지 질의는 재귀적이고, 나머지 질의는 반복적이다. 
+
+<figure style="width: 580px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/10.png' }}" alt=""> 
+</figure> 
 
 #### 2.4.2.2. DNS 캐싱(DNS Caching)
 로컬 DNS 서버는 임의의 DNS 서버로부터 응답을 받을 때마다 이를 저장할 수 있다. 
@@ -491,6 +535,10 @@ NS 레코드의 Value 필드에 있는 DNS 서버의 IP 주소를 제공하는 T
 #### 2.4.3.1. DNS 메세지(DNS Messages)
 DNS 메세지는 질의 혹은 응답 메세지이며, 다음과 같은 내부 필드를 가지고 있다. 
 
+<figure style="width: 580px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/11.png' }}" alt=""> 
+</figure> 
+
 처음 12바이트는 헤더 영역으로, 첫 필드는 식별자이다. 
 이는 보낸 질의와 수신된 응답 간의 일치를 식별한다. 
 플래그 필드는 질의/응답 여부, 책임서버 여부, 재귀 요구 여부, 재귀 가능 여부를 나타내는 플래그 비트로 되어있다. 
@@ -524,12 +572,17 @@ N개의 호스트가 있을 때,
 
 N개의 피어들이 파일의 복사본을 얻는 데 걸리는 최소 분배 시간이 P2P 구조의 경우가 항상 작다. 
 또한 N이 늘어나도 최소 분배 시간에 상한선이 있다. 
+
 따라서 P2P 구조를 가진 애플리케이션은 자가 확장성을 가진다. 
 이 확장성은 피어가 비트의 소비자이자 재분배자인 것의 결과이다. 
 
 ### 2.5.2. 비트토렌트(BitTorrent)
 비트토렌트는 파일 분배를 위한 인기 있는 P2P 프로토콜이다. 
 비트토렌트 용어로, 특정 파일 분배에 참여하는 피어들의 모임을 토렌트(torrent)라고 부른다. 
+
+<figure style="width: 580px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/12.png' }}" alt=""> 
+</figure> 
 
 토렌트에 참여하는 피어들은 서로에게서 같은 크기의 청크(chunk)를 다운로드한다. 
 피어가 청크를 다운로드할 때, 피어는 또한 청크를 다른 피어들에게 업로드한다. 
@@ -547,6 +600,7 @@ N개의 피어들이 파일의 복사본을 얻는 데 걸리는 최소 분배 �
 
 어느 피어에게 청크를 보낼 지를 결정하기 위해 현명한 교역(trading) 알고리즘을 사용한다. 
 이는 사용자에게 가장 빠른 속도로 데이터를 제공하는 이웃들을 주기적으로 갱신한다. 
+
 그리고 임의로 한 이웃을 추가로 선택하여, 이들에게 청크를 보내고, 나머지에게는 청크를 보내지 않는다. 
 피어는 더 좋은 파트너를 만날 때까지 교역을 계속한다. 
 이런 교역을 위한 보상 방식을 TFT(tif-for-tat)이라고 한다. 
@@ -594,6 +648,10 @@ CDN은 각 클러스터마다 서로 다른 복사본을 가지고 있다.
 CDN은 사용자의 비디오 재생 요청을 가로채, (1) 사용자에게 가장 좋은 CDN 클러스터를 선택하고, 
 (2) 요청을 클러스터의 서버로 보낸다. 
 
+<figure style="width: 480px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/13.png' }}" alt=""> 
+</figure> 
+
 요청을 가로채고 다른 곳으로 연결하는 절차는 다음 예와 같다. 
 NetCinema 라는 콘텐츠 제공자가 KingCDN이라는 CDN 업체를 이용해 비디오를 사용자에게 분배한다고 하자. 
 1. 사용자가 NetCinema 웹페이지를 방문한다. 
@@ -635,6 +693,11 @@ CDN-P2P 스트리밍 시스템을 사용한다.
 그리고 잘 알려진 포트 번호를 사용하지 말아야 한다. 
 
 ### 2.7.1. UDP를 이용한 소켓 프로그래밍(Socket Programming with UDP)
+
+<figure style="width: 580px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/14.png' }}" alt=""> 
+</figure> 
+
 ```python
 // UDPClient.py
 from socket import *
@@ -688,7 +751,15 @@ TCP 서버는 클라이언트로부터의 초기 접속을 처리하는 환영(w
 클라이언트는 TCP 소켓을 생성할 때, 이 환경 소켓의 IP 주소와 포트 번호를 명시한다. 
 소켓을 생성한 후 세 방향 핸드셰이크를 하고 TCP 연결을 설정한다. 
 
+<figure style="width: 415px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/15.png' }}" alt=""> 
+</figure> 
+
 서버에 클라이언트가 세 방향 핸드셰이크를 통해 접근하면, 서버는 해당 클라이언트에 지정되는 새로운 소켓을 생성한다. 
+
+<figure style="width: 640px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-18-computer_networking_2/16.png' }}" alt=""> 
+</figure> 
 
 ```python
 // TCPClient.py

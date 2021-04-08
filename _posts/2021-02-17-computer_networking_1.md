@@ -1,6 +1,6 @@
 ---
 title: "컴퓨터 네트워킹 요약 - 1. 컴퓨터 네트워크와 인터넷"
-last_modified_at: 2021-03-25
+last_modified_at: 2021-04-08
 show_date: true
 classes: wide
 excerpt: ""
@@ -31,19 +31,23 @@ ISP는 모뎀, LAN, 모바일 무선 등 다양한 네트워크 접속을 제공
 ### 1.1.2. 서비스 측면에서 본 인터넷
 인터넷 애플리케이션은 종단 시스템에서 수행된다. 
 
-패킷 스위치들은 종단 시스템 간에 데이터 교환을 해주지만, 애플리케이션은 고려하지 않는다. 
+패킷 스위치들은 종단 시스템 간에 데이터 교환을 해주지만, 애플리케이션을 고려하지 않는다. 
 
 종단 시스템은, 한 종단 시스템의 프로그램이 인터넷 인프라구조에게 다른 종단 시스템의 프로그램에게 데이터를 어떻게 전달하도록 요구하는지를 명시한 소켓 인터페이스(socket interface)를 제공한다. 
 인터넷 소켓 인터페이스는 송신 프로그램이 따라야 하는 규칙의 집합이며, 인터넷은 이 규칙에 따라 데이터를 목적지 프로그램으로 전달한다. 
 
 ### 1.1.3. 프로토콜이란 무엇인가?
-네트워크 프로토콜은 컴퓨터의 network interface card(LAN 카드, 요즘은 메인보드 내장)에 하드웨어로 구현된 프로토콜이다. 
+네트워크 프로토콜은 컴퓨터의 network interface card(LAN 카드, 보통 메인보드 내장)에 하드웨어로 구현된 프로토콜이다. 
 이는 둘 이상의 통신 매체 간에 교환되는 메세지 포맷과 순서뿐 아니라, 메세지의 송수신과 다른 이벤트에 따른 행동들을 정의한다. 
 
 ## 1.2. 네트워크의 가장자리(The Network Edge)
 
 ### 1.2.1. 접속 네트워크(Access Networks)
 접속 네트워크는 종단 시스템을 **다른 종단 시스템까지의 경로상에 있는 첫 번째 라우터(edge router)에 연결하는 네트워크**이다. 
+
+<figure style="width: 580px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-17-computer_networking_1/1.png' }}" alt=""> 
+</figure> 
 
 #### 1.2.1.1. 가정 접속(Home Access): DSL, 케이블, FTTH, 위성
 (1) 가정은 DSL(Digital Subscriber Line) 인터넷 접속 서비스를 지역 전화 회사(telco)로부터 받는다. 
@@ -52,13 +56,25 @@ ISP는 모뎀, LAN, 모바일 무선 등 다양한 네트워크 접속을 제공
 DSL 모뎀은 디지털 데이터를 받아서 CO로 전송하기 위해 고주파 신호로 변환한다. 
 DSLAM에서 아날로그 신호를 다시 디지털 포맷으로 변환한다. 
 
+<figure style="width: 580px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-17-computer_networking_1/2.png' }}" alt=""> 
+</figure> 
+
 (2) 케이블 인터넷 접속은 TV 서비스를 제공하는 회사로부터 인터넷 접속 서비스를 받는다. 
 광케이블은 케이블 헤드엔드(head end)를 이웃-레벨 연결 지점(junction)에 연결하며, 이로부터 가정까지는 동축케이블이 사용된다. 
 두가지 케이블이 사용되기에 HFC(hybrid fiber coax)라고도 부른다. 
 가정의 케이블 모뎀과 케이블 헤드엔드의 CMTS(cable modem termination system)은 DSL에서 처럼 신호를 변환한다. 
 
+<figure style="width: 680px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-17-computer_networking_1/3.png' }}" alt=""> 
+</figure> 
+
 (3) FTTH(fiber to the home)은 CO로부터 가정까지 직접 광섬유 경로를 제공하여 빠르다. 
 가정의 ONT(optical network terminator)와 CO의 OLT(optical line terminator)는 광신호와 전기신호 간의 변환을 제공한다. 
+
+<figure style="width: 530px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-17-computer_networking_1/4.png' }}" alt=""> 
+</figure> 
 
 (4) 위의 방법들이 가용하지 않은 곳에서(시골지역 등) 인터넷접속을 제공하기 위해 위성 링크를 사용할 수 있다. 
 
@@ -66,6 +82,10 @@ DSLAM에서 아날로그 신호를 다시 디지털 포맷으로 변환한다.
 기업과 가정 환경에서 LAN(local area network)은 일반적으로 종단 시스템을 가장자리 라우터에 연결하기 위해 사용된다. 
 여러 유형의 LAN 기술이 있지만 이더넷이 널리 사용된다. 
 종단 시스템은 이더넷 스위치에 연결되고, 스위치는 더 큰 인터넷으로 연결된다. 
+
+<figure style="width: 540px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-17-computer_networking_1/5.png' }}" alt=""> 
+</figure> 
 
 무선 사용자들은 AP(access point)로 패킷을 송/수신하고, 이 AP는 유선 네트워크에 다시 연결된다. 
 무선 LAN 접속은 와이파이라고 알려진 IEEE 802.11 기술에 기반한다. 
@@ -113,8 +133,8 @@ UTP, STP 등의 종류가 있다.
 메세지를 보내기 위해, 송신 시스템은 긴 메세지를 패킷(packet)이라고 하는 작은 데이터 덩어리로 분할한다. 
 
 #### 1.3.1.1. 저장-후-전달 전송(Store-and-Forward Transmission)
-저장-후-전달 전송 방식에서, 스위치는 출력 링크로 패킷을 전송하기 전에 전체 패킷을 받아야 한다. 
-라우터는 먼저 온 패킷의 비트를 저장하고 있다가, 모든 패킷의 비트를 수신한 후에만 출력 링크로 패킷을 전송한다. 
+저장-후-전달 전송 방식에서, 스위치는 출력 링크로 패킷을 전송하기 전에 패킷의 전체를 받아야 한다. 
+라우터는 패킷의 먼저 온 비트를 저장하고 있다가, 패킷의 모든 비트를 수신한 후에만 출력 링크로 패킷을 전송한다. 
 
 #### 1.3.1.2. 큐잉 지연과 패킷 손실(Queuing Delays and Packet Loss)
 패킷 스위치는 여러 개의 링크를 갖고 있다. 
@@ -123,6 +143,10 @@ UTP, STP 등의 종류가 있다.
 만약 라우터에 도착하는 패킷이 한 링크로 전송될 필요가 있는데, 그 링크가 다른 패킷을 전송하고 있다면 출력 버퍼에서 대기해야 한다. 
 이를 큐잉 지연이라 하며, 버퍼가 꽉 차는 경우 버퍼에 있는 패킷을 버리기에 패킷 손실이 발생한다. 
 
+<figure style="width: 480px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-17-computer_networking_1/6.png' }}" alt=""> 
+</figure> 
+
 #### 1.3.1.3. 전달 테이블과 라우팅 프로토콜(Forwarding Tables and Routing Protocols)
 인터넷에서 종단 시스템은 IP 주소를 갖는다. 
 송신 종단 시스템은 패킷의 헤더에 목적지의 IP 주소를 포함한다. 
@@ -130,7 +154,7 @@ UTP, STP 등의 종류가 있다.
 라우터는 목적지 주소(혹은 일부)를 라우터의 출력 링크로 맵핑하는 전달 테이블을 갖고 있다. 
 패킷이 라우터에 도착하면, 올바른 출력 링크를 찾기 위해 목적지 주소를 이용하여 전달 테이블을 검색한다. 
 
-인터넷은 자동으로 전달 테이블을 설정하기 위해 여러 특별한 라우팅 프로토콜(5장 내용)을 사용한다. 
+인터넷은 자동으로 전달 테이블을 설정하기 위해 여러 특별한 라우팅 프로토콜(5장)을 사용한다. 
 
 ### 1.3.2. 회선 교환(Circuit Switching)
 링크와 스위치의 네트워크를 통해 데이터를 이동시키는 방식에는 앞선 패킷 교환 외에 회선 교환이 있다. 
@@ -146,6 +170,10 @@ UTP, STP 등의 종류가 있다.
 링크 내 한 회선은 주파수-분할 다중화(frequency-division multiplexing, FDM) 혹은 
 시-분할 다중화(time-divivison multiplexing, TDM)로 구현된다. 
 
+<figure style="width: 800px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-17-computer_networking_1/7.png' }}" alt=""> 
+</figure> 
+
 FDM에서 연결은 그 링크의 주파수 스펙트럼을 공유한다. 
 특히 그 링크는 연결되는 동안 각 연결에 대해 주파수 대역을 고정 제공한다. 
 이런 대역의 폭을 대역폭(bandwidth)라고 한다. 
@@ -157,7 +185,7 @@ TDM의 경우는 시간을 일정 주기의 프레임으로 구분하고, 각 �
 
 #### 1.3.2.2. 패킷 교환 대 회선 교환(Packet Switching Versus Circuit Switching)
 패킷 교환은 예측할 수 없는 지연(주로 큐잉 지연)이 있으나 
-회선 교환보다 간단하고, 효율적이라고 한다. 
+회선 교환보다 간단하고, 효율적이다. 
 
 오늘날의 많은 회선 교환 전화망이 패킷 교환으로 전환되고 있다. 
 특히, 전화망은 비싼 해외 통화 부분을 패킷 교환 방식으로 이용한다. 
@@ -171,6 +199,10 @@ ISP들은 그 서비스 영역이 다양하다.
 
 사용자와 콘텐츠 제공자(구글 등)은 하위 계층 ISP들의 고객이고, 하위 계층 ISP들은 상위 계층 ISP들의 고객이다. 
 최근에, 주요 콘텐츠 제공자들도 자신의 네트워크를 구축하였고, 가능한 곳에서 하위 계층 ISP들과 직접 연결한다. 
+
+<figure style="width: 580px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-17-computer_networking_1/8.png' }}" alt=""> 
+</figure> 
 
 ## 1.4. 패킷 교환 네트워크에서의 지연, 손실과 처리율(Delay, Loss, and Throughput in Packet-Switched Networks)
 
@@ -296,7 +328,7 @@ IP 프로토콜과 여러 라우팅 프로토콜을 모두 갖고 있으며, IP 
 패킷을 이동하기 위해, 네트워크 계층은 링크 계층 서비스에 의존한다. 
 각 노드에서 네트워크 계층이 데이터그램을 아래 링크 계층으로 보내고, 링크 계층이 그 데이터그램을 다음 노드에 전달한다. 
 
-링크 계층 프로토콜에는 이더넷, 와이파이 등이 있따. 
+링크 계층 프로토콜에는 이더넷, 와이파이 등이 있다. 
 데이터그램은 경로상의 서로 다른 링크에서 다른 링크 계층 프로토콜에 의해 처리될 수 있다. 
 예를 들어, 하나의 링크에선 이더넷에 의해 다루어지고 다음 링크에서는 PPPoE(Point-to-Point Protocol over Ethernet)에 의해 다루어질 수 있다. 
 

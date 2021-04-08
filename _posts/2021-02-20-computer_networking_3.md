@@ -1,6 +1,6 @@
 ---
 title: "컴퓨터 네트워킹 요약 - 3. 트랜스포트 계층"
-last_modified_at: 2021-02-23
+last_modified_at: 2021-04-08
 show_date: true
 classes: wide
 excerpt: ""
@@ -25,7 +25,7 @@ categories:
 네트워크 계층이 트랜스포트 계층 세그먼트에 대한 지연/대역폭 보장을 제공할 수 없다면, 
 트랜스포트 계층은 프로세스끼리 전송하는 메세지에 대한 지연/대역폭 보장을 제공할 수 없다. 
 
-네트워크 계층이 상응하는 서비스를 제공하지 못할 때에도, 특정 서비스는 트랜스포트 계층이 제공할 수도 있다. 
+하지만 네트워크 계층이 상응하는 서비스를 제공하지 못할 때에도, 특정 서비스는 트랜스포트 계층이 제공할 수도 있다. 
 예를 들어, 신뢰적 데이터 전송, 데이터 암호화가 있다. 
 
 ### 3.1.2. 인터넷 트랜스포트 계층의 개요(Overview of the Transport Layer in the Internet)
@@ -34,8 +34,9 @@ categories:
 
 UDP, TCP에 앞서 인터넷의 네트워크 계층의 용어는 다음과 같다. 
 네트워크 계층 프로토콜은 인터넷 프로토콜, 줄여서 IP라고 부른다. 
+
 IP 서비스 모델은 호스트들 간에 논리적 통신을 제공하는 최선형 전달 서비스(best-effort delivery service)이다. 
-이것은 IP가 세그먼트 전달을 위해 최대한 노력하지만, 전달을 보장하지 않고 세그먼트가 순서대로 전달되는 것도 보장하지 않는다. 
+IP는 세그먼트 전달을 위해 최대한 노력하지만, 전달을 보장하지 않고 세그먼트가 순서대로 전달되는 것도 보장하지 않는다. 
 이 때문에, IP를 비신뢰적인 서비스(unreliable service)라 한다. 
 
 UDP와 TCP의 기본적인 기능은 호스트 간의 IP 전달 서비스를 호스트에서 동작하는 두 프로세스 간의 전달 서비스로 확장하는 것이다. 
@@ -56,13 +57,18 @@ TCP는 신뢰적인 데이터 전달(reliable data transfer)을 제공한다.
 대신에 중간 매개자인 소켓에게 전달한다. 
 
 트랜스포트 계층 세그먼트의 데이터를 올바른 소켓으로 전달하는 작업을 역다중화라고 한다. 
+
 출발지 호스트에서 소켓으로부터 데이터를 모으고, 세그먼트를 생성하기 위해 데이터에 헤더 정보(역다중화에 필요)로 캡슐화하고, 
 세그먼트를 네트워크 계층으로 전달하는 작업을 다중화라고 한다. 
 
 다중화에는 두 가지 요구사항이 필요하다. 
-첫째, 소켓은 유일한 식별자를 가진다. 
-둘째, 각 세그먼트를 세그먼트가 전달될 소켓을 가르키는 특별한 필드를 가진다. 
+1. 소켓은 유일한 식별자를 가진다. 
+2. 각 세그먼트를 세그먼트가 전달될 소켓을 가르키는 특별한 필드를 가진다. 
 즉, 출발지 포트 번호 필드(source port number field)와 목적지 포트 번호 필드(destination port number field)이다. 
+
+<figure style="width: 390px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/1.png' }}" alt=""> 
+</figure> 
 
 호스트의 각 소켓은 포트 번호를 할당받는다. 
 세그먼트가 호스트에 도착하면, 트랜스포트 계층은 목적지 포트 번호를 검사하고 상응하는 소켓으로 세그먼트를 보낸다. 
@@ -108,17 +114,18 @@ UDP는 어떤 것도 기록하지 않는다.
 TCP가 세그먼트마다 20바이트의 헤더 오버헤드를 갖는 반면에 UDP는 단지 8바이트의 오버헤드를 가진다. 
 
 이런 장점이 있기에, 적은 양의 패킷 손실이 허용되는 애플리케이션들은 UDP를 사용할 수도 있다. 
-| 애플리케이션 | 애플리케이션 계층 프로토콜 | 하위 트랜스포트 프로토콜 |
-|:--------:|:-------:|:--------:|
-| 전자메일 | SMTP    | TCP   |
-| 웹        | HTTP   | TCP   |
-| 파일 전송 | FTP    | TCP   |
-| 스티리밍 멀티미디어 | 통상 독점 프로토콜 | UDP 또는 TCP |
-| 네트워크 관리 | SNMP | 일반적으로 UDP |
-| 이름 변환 | DNS | 일반적으로 UDP |
+
+<figure style="width: 580px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/2.png' }}" alt=""> 
+</figure> 
 
 ### 3.3.1. UDP 세그먼트 구조(UDP Segment Structure)
 UDP 세그먼트에는 출발지 포트 번호, 목적지 포트 번호, 길이, 체크섬(checksum), 애플리케이션 데이터가 있다. 
+
+<figure style="width: 240px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/3.png' }}" alt=""> 
+</figure> 
+
 * 포트번호는 역다중화를 위해 쓰인다. 
 * 길이는 헤더를 포함하는 UDP 세그먼트의 길이를 나타낸다. 
 * 체크섬은 세그먼트에 오류가 발생했는지를 검사하기 위해 수신 호스트에 의해 사용된다. 
@@ -202,7 +209,7 @@ rdt2.0 에서는 패킷들이 송신된 순서대로 수신된다고 가정한�
 * 수신자 피드백: 수신자의 상태를 알기 위해 긍정 확인응답(ACK)과 부정 확인응답(NAK) 등이 필요하다. 
 * 재전송: 오류를 가지고 수신된 패킷은 송신자가 재전송한다. 
 
-송신 측은 rdt1.0 처럼 패킷을 보낸 후 ACK 또는 NAK 패킷을 기다린다. 
+송신 측은 패킷을 보낸 후 ACK 또는 NAK 패킷을 기다린다. 
 기다리는 동안은 상위 계층의 데이터는 더 받을 수 없다. 
 이 행동 때문에 rdt2.0은 전송-후-대기(stop-and-wait) 프로토콜로 알려져 있다. 
 
@@ -244,6 +251,10 @@ rdt3.0이 전송-후-대기 프로토콜이기 때문이다.
 파이프라이닝(pipelining)은 확인응답을 기다리지 않고 여러 패킷을 전송하도록 허용한다. 
 전송 중인 패킷은 파이프라인에 채워 넣는다. 
 
+<figure style="width: 770px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/4.png' }}" alt=""> 
+</figure> 
+
 이 방식에서는 순서 번호의 범위가 커져야 한다. 
 확인응답이 안된 여러 패킷이 있을지도 모르기 때문이다. 
 
@@ -255,6 +266,10 @@ rdt3.0이 전송-후-대기 프로토콜이기 때문이다.
 GBN 프로토콜에서 송신자는 확인응답을 기다리지 않고 여러 패킷을 전송할 수 있다. 
 그러나 파이프라인에서 확인응답이 안된 패킷의 최대 허용 수 N보다 크지 않아야 한다. 
 N을 윈도우 크기(window size)라고도 부르며, GBN 프로토콜을 슬라이딩 윈도우 프로토콜(sliding-window protocol)이라고도 부른다. 
+
+<figure style="width: 670px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/5.png' }}" alt=""> 
+</figure> 
 
 송신자는 세 가지 타입의 이벤트에 반응한다. 
 (1) 상위로부터의 호출: 송신자는 상위 계층이 데이터를 보내려고 할 때, N개의 확인응답 되지 않은 패킷이 있는지를 확인한다. 
@@ -270,9 +285,17 @@ n까지의 모든 패킷들이 올바르게 수신되었다고 판단한다.
 순서번호 n을 가진 패킷이 오류 없이, 순서대로 수신된다면 n에 대한 ACK를 송신한다. 
 그 외의 경우에는 패킷을 버리고, 가장 최근에 제대로 수신된 패킷의 순서에 대한 ACK를 재전송한다. 
 
+<figure style="width: 660px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/6.png' }}" alt=""> 
+</figure> 
+
 ### 3.4.4. 선택적 반복(Selective Repeat, SR)
 GBN은 패킷 하나의 오류 때문에 많은 패킷을 재전송한다. 
 SR 프로토콜은 수신자에서 오류가 있다고 한 패킷만 재전송한다. 
+
+<figure style="width: 680px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/7.png' }}" alt=""> 
+</figure> 
 
 송신자는 다음과 같이 행동한다. 
 (1) 상위 계층에서 데이터 받음: 순서번호가 윈도우 내에 있으면 패킷으로 만들어 송신한다. 
@@ -286,7 +309,8 @@ SR 프로토콜은 수신자에서 오류가 있다고 한 패킷만 재전송�
 
 수신자는 다음과 같이 행동한다. 
 (1) 윈도우 범위 안의 순서번호[rcv_base, rcv_base+N-1]를 가진 패킷이 오류없이 수신 될 때: 
-ACK를 보내는 것은 같고, 순서번호에 따라 달라진다.  
+ACK를 보내는 것은 같고, 순서번호에 따라 달라진다. 
+
 패킷의 순서번호가 rcv_base와 같지 않다면, 버퍼에 저장한다. 
 rcv_base와 같다면, 이 패킷과 버퍼에 저장된 연속된 패킷들을 상위 계층으로 전달한다. 
 예를 들어, rcv_base=2가 온다면 버퍼의 3, 4, 5 패킷이 같이 전달될 수 있다. 
@@ -296,16 +320,25 @@ rcv_base와 같다면, 이 패킷과 버퍼에 저장된 연속된 패킷들을 
 
 (3) 이 외의 경우, 패킷을 무시한다. 
 
+<figure style="width: 680px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/8.png' }}" alt=""> 
+</figure> 
+
 앞의 내용들은 패킷의 순서가 바뀔 수 없다는 가정이었다. 
 실제로는 순서가 바뀌어, 송신자와 수신자의 윈도우가 x를 포함하지 않고 있더라도, 순서번호 또는 확인응답번호 x를 가진 패킷의 복사본들이 생길 수 있다. 
 
 이를 막기 위해 송신자가 순서번호 x를 가진 이전에 송신된 패킷들이 더 이상 네트워크에 없다는 것을 어느 정도 확신할 때까지 순서번호가 재사용되지 않게 한다. 
+
+<figure style="width: 700px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/9.png' }}" alt=""> 
+</figure> 
 
 ## 3.5. 연결지향형 트랜스포트: TCP(Connection-Oriented Transport: TCP)
 
 ### 3.5.1. TCP 연결(The TCP Connection)
 TCP는 프로세스가 데이터를 보내기 전에, 두 프로세스가 서로 핸드셰이크를 먼저 해야하므로 연결지향형(connection-oriented)이다. 
 TCP 프로토콜은 종단 시스템에서만 동작하고, 중간의 네트워크 요소(라우터 등)은 TCP 연결을 보지 못하고 데이터그램만 본다. 
+
 TCP 연결은 양방향 통신이 가능한 전이중(full-duplex) 서비스를 제공한다. 
 또한 TCP 연결은 항상 단일 송신자와 단일 수신자 사이의 점대점(point-to-point)이다. 
 
@@ -320,9 +353,17 @@ TCP는 송신 버퍼에서 TCP 세그먼트(TCP 헤더와 데이터를 합침)�
 TCP가 상대에게서 세그먼트를 수신하면, 세그먼트의 데이터는 수신 버퍼(receive buffer)에 저장된다. 
 그리고 소켓을 거쳐 프로세스에게 전달된다. 
 
+<figure style="width: 540px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/10.png' }}" alt=""> 
+</figure> 
+
 ### 3.5.2. TCP 세그먼트 구조(TCP Segment Structure)
 TCP 세그먼트는 헤더 필드와 데이터 필드로 구성되어 있는데, MSS(maximum segment size)가 데이터 필드의 크기를 제한한다. 
 TCP 헤더는 일반적으로 20바이트이다. 
+
+<figure style="width: 510px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/11.png' }}" alt=""> 
+</figure> 
 
 TCP 헤더는 다음과 같은 필드를 포함한다. 
 * 출발지, 목적지 포트 번호
@@ -338,6 +379,10 @@ TCP 헤더는 다음과 같은 필드를 포함한다.
 TCP는 데이터를 구조화하지 않고, 단지 순서대로 정렬된 바이트 스트림으로 본다. 
 따라서 세그먼트에 대한 순서번호는 세그먼트에 있는 첫 번째 바이트의 바이트 스트림 번호이다. 
 
+<figure style="width: 590px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/12.png' }}" alt=""> 
+</figure> 
+
 예를 들어, 데이터 스트림이 500,000바이트, MSS가 1,000바이트라면, 
 첫 번째 세그먼트는 0, 두 번째 세그먼트는 1,000, ... 의 순서 번호를 갖는다. 
 
@@ -352,10 +397,10 @@ A의 다음 확인응답 번호는 536이다. 그리고 순서가 틀린 900~100
 텔넷은 대화형 애플리케이션이고, 암호화되지 않아 SSH 프로토콜에 비해 잘 쓰이지 않는다. 
 
 텔넷에서 사용자가 입력한 문자는 원격 호스트에 송신되고, 복사본이 사용자에게 반송된다. 
-예를 들어 다음과 같은 순서, 확인번호를 주고 받는다. 
-1. A->B, Seq=42, ACK=79, data
-2. B->A, Seq=79, ACK=43, data
-3. A->B, Seq=43, ACK=80 ...
+
+<figure style="width: 650px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/13.png' }}" alt=""> 
+</figure> 
 
 ### 3.5.3. 왕복시간 예측과 타임아웃(Round-Trip Time Estimation and Timeout)
 
@@ -394,7 +439,7 @@ TCP는 네트워크 계층(IP 서비스)의 비신뢰적인 최선형 서비스�
 
 (2) 타임아웃이 일어난다면, 확인응답을 받지 못한 세그먼트 중 순서번호가 가장 작은 것을 재전송한다. 
 
-(3) 순서번호 y에 대응되는 ACK를 받고, y가 SendBase(확인응답이 되지 안흔 가장 오래된 순서번호) 보다 크다면 SendBase=y로 갱신하고, 아직 확인응답 안된 세그먼트들이 존재한다면 타이머를 다시 시작한다. 
+(3) 순서번호 y에 대응되는 ACK를 받고, y가 SendBase(확인응답이 되지 않은 가장 오래된 순서번호) 보다 크다면 SendBase=y로 갱신하고, 아직 확인응답 안된 세그먼트들이 존재한다면 타이머를 다시 시작한다. 
 
 #### 3.5.4.1. 몇 가지 흥미로운 시나리오(A Few Interesting Scenarios)
 호스트 A가 B로 데이터를 보내는 3가지 시나리오를 살펴본다. 
@@ -417,6 +462,7 @@ TCP는 재전송 때마다 마지막 EstimateRTT와 DevRTT로부터 타임아웃
 
 이 방식은 제한된 형태의 혼잡제어를 제공한다. 
 타이머 만료는 주로 네트워크 혼잡에 의해 발생한다. 
+
 즉, 경로에서 하나 이상의 라우터 큐에 있는 많은 패킷이 패킷의 손실이나 큐 대기의 원인이 된다. 
 혼잡할 때 전송을 계속하면 그 혼잡은 더욱 악화될 것이다. 
 따라서 더 긴 간격으로 재전송한다. 
@@ -426,7 +472,12 @@ TCP는 재전송 때마다 마지막 EstimateRTT와 DevRTT로부터 타임아웃
 
 송신자는 3개의 중복 ACK를 수신하는 경우, 손실 세그먼트를 재전송하는 빠른 재전송을 한다. 
 중복 ACK는 수신자가 기다리는 것보다 더 큰 순서번호를 받았을 때 발생한다. 
-예를 들어, 8 bytes data를 지닌 Seq=92, Seq=100, Seq=108, Seq=116, Seq=124을 송신할 때, Seq=100이 손실되었다면, 
+
+<figure style="width: 640px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/14.png' }}" alt=""> 
+</figure> 
+
+8 bytes data를 지닌 Seq=92, Seq=100, Seq=108, Seq=116, Seq=124을 송신할 때, Seq=100이 손실되었다면, 
 92, 108, 116, 124에 대한 ACK는 전부 100이 될 것이다. 
 
 #### 3.5.4.4. GBN인가 SR인가?(Go-Back-N or Selective Repeat?)
@@ -436,6 +487,7 @@ GBN과 유사하지만, TCP은 순서가 바뀐 세그먼트들을 버퍼링도 
 선택적 확인응답(selective acknowledgment)이라고 하는 TCP에 제안된 수정은, 
 TCP 수신자가 마지막으로 올바로 수신된, 순서가 맞는 세그먼트에 대해 누적 확인응답을 하기 보다는 
 순서가 틀린 세그먼트에 대해서 선택적으로 확인응답을 하게 한다. 
+
 선택적 재전송과 결합되었을 경우 TCP는 SR 프로토콜과 유사하다. 
 그래서 TCP는 GBN과 SR의 혼합으로 분류하는 것이 적당하다. 
 
@@ -443,9 +495,13 @@ TCP 수신자가 마지막으로 올바로 수신된, 순서가 맞는 세그먼
 TCP는 송신자가 수신자의 버퍼를 오버플로 시키는 것을 방지하기 위해서 애플리케이션에게 흐름제어 서비스(flow-control service)를 제공한다. 
 수신하는 애플리케이션이 읽는 속도와 송신자가 전송하는 속도를 같게 한다. 
 
-3.5.5 에서는 TCP 수신자가 순서가 틀린 세그먼트를 버린다고 가정한다. 
+이 절에서는 TCP 수신자가 순서가 틀린 세그먼트를 버린다고 가정한다. 
 TCP 송신자는 수신 윈도우(receive window)라는 변수를 유지하여 흐름제어를 제공한다. 
 수신 윈도우는 수신 측에서 가용한 버퍼 공간이 얼마나 남아있는지를 송신자에게 알려주는 데 사용된다. 
+
+<figure style="width: 540px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/15.png' }}" alt=""> 
+</figure> 
 
 수신 버퍼의 크기를 RcvBuffer, 수신 측 프로세스가 버퍼에서 읽은 데이터 스트림의 마지막 바이트의 수를 LastByteRead, 
 수신 측의 수신 버퍼에 저장된 데이터 스트림의 마지막 바이트의 수를 LastByteRcvd 라 하자. 
@@ -462,6 +518,10 @@ TCP 명세서는 이런 문제를 해결하기 위해, 수신 측의 수신 윈�
 TCP 연결 설정 시작은 다음과 같다. 
 두 호스트 사이에서 3개의 패킷이 송신되므로 TCP 연결 설정 절차를 세 방향 핸드셰이크라고 부른다. 
 
+<figure style="width: 470px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/16.png' }}" alt=""> 
+</figure> 
+
 1단계: 클라이언트 측 TCP가 서버 TCP에게 특별한 TCP 세그먼트를 송신한다. 
 이 세그먼트에는 데이터가 포함되지 않으나, 헤더의 SYN 비트값이 1이다. 
 때문에 SYN 세그먼트라고도 부른다. 
@@ -476,8 +536,13 @@ TCP 연결 설정 시작은 다음과 같다.
 그리고 SYN 비트값 0, 확인응답 번호를 세그먼트에 넣어 서버로 보냄으로써, 서버의 SYNACK 세그먼트를 확인한다. 
 여기서 부터는 데이터가 포함될 수 있다. 
 
+<figure style="width: 500px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/17.png' }}" alt=""> 
+</figure> 
+
 서버나 클라이언트가 TCP 연결을 끝낼 수 있다. 
 예를 들어 클라이언트가 세그먼트 헤더에 FIN 비트를 1로 하여 보내고 ACK 응답을 받는다. 
+
 그 후, 서버가 동일하게 FIN 비트를 1로 하여 보내고 ACK 응답을 받으면, 연결이 종료된다. 
 클라이언트는 서버가 ACK 을 제대로 받도록 30초 등 일정 시간동안 TIME_WAIT 상태로 있다가 종료된다.  
 이 시점에서 두 호스트의 모든 자원들은 할당이 해제된다. 
@@ -524,13 +589,17 @@ R/2를 초과한다면, 큐잉 지연이 무제한으로 커진다.
 즉, 커다란 지연으로 인한 불필요한 재전송은 라우터가 불필요한 복사본들을 전송하는데 링크 대역폭을 사용하는 원인이 된다. 
 
 #### 3.6.1.3. 4개의 송신자와 유한 버퍼를 가지는 라우터, 그리고 멀티홉 경로(Scenario 3: Four Senders, Routers with Finite Buffers, and Multihop Paths)
-그림 3.48처럼 제공된 부화가 어느 정도 증가함에 따라 처리량이 늘지만, 트래픽이 너무 많은 경우 처리량이 0이 된다.  
-제공된 부하가 증가하면 처리량이 감소하는 원인은 네트워크가 수행한 헛된 작업의 양을 고려해보면 확실해진다. 
+
+<figure style="width: 630px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/18.png' }}" alt=""> 
+</figure> 
+
+제공된 부화가 어느 정도 증가함에 따라 처리량이 늘지만, 트래픽이 너무 많은 경우 처리량이 0이 된다.  
+처리량이 감소하는 원인은 네트워크가 수행한 헛된 작업의 양을 고려해보면 확실해진다. 
 패킷이 경로 상에서 버려질 때, 버려지는 지점까지 패킷을 전송하는 데 사용된 상위 라우터에서 사용된 용량은 헛된 것이 된다. 
 
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>center</figcaption>
+<figure style="width: 520px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/19.png' }}" alt=""> 
 </figure> 
 
 #### 3.6.2. 혼잡제어에 대한 접근법(Approaches to Congestion Control)
@@ -542,10 +611,15 @@ R/2를 초과한다면, 큐잉 지연이 무제한으로 커진다.
 
 네트워크 지원 혼잡제어: 네트워크 계층 구성요소는 혼잡 상와 관련하여 송신자에게 피드백을 제공한다. 
 예를 들어, ATM Available Bite Rate (ABR) 혼잡 제어에서, 라우터가 자신의 출력 링크(outgoint link)에 제공할 수 있는 전송률을 송신자에게 알려준다. 
+
 혼잡 정보는 전형적인 두 가지 방법 중 하나로 네트워크에서 송신자에게 피드백된다. 
-(1) 라우터가 송신자에게 초크 패킷(choke packet)을 보내 자신의 혼잡 상태를 알린다. 
-(2) 더 일반적인 방법은, 라우터가 흘러가는 패킷에 혼잡 상태를 기록(marks/updates)하는 것이다. 
+1. 라우터가 송신자에게 초크 패킷(choke packet)을 보내 자신의 혼잡 상태를 알린다. 
+2. 더 일반적인 방법은, 라우터가 흘러가는 패킷에 혼잡 상태를 기록(marks/updates)하는 것이다. 
 수신자가 이 기록된 패킷을 받으면, 혼잡 상황을 알게된다. 
+
+<figure style="width: 580px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/20.png' }}" alt=""> 
+</figure> 
 
 ## 3.7.0. TCP 혼잡제어(TCP Congestion Control)
 TCP는 네트워크 혼잡에 따라, 연결에 트래픽을 보내는 전송률을 각 송신자가 제한하도록 한다. 
@@ -575,8 +649,13 @@ ACK들과 손실 이벤트는 묵시적 신호이며, 각 송신자들은 다른
 #### 3.7.0.1. 슬로 스타트(Slow Start)
 슬로 스타트 상태에서는 cwnd값을 1MSS에서 시작하여, 한 세그먼트가 첫 번째 확인응답을 받을 때 마다 1MSS씩 증가시킨다. 
 그리고 손실 이벤트가 있을 경우, cwnd값을 1로 하고, 새로운 슬로 스타트를 시작한다. 
+
 또한 ssthresh(slow start threshold, 슬로 스타트 임계치) 변수를 cwnd/2(혼잡이 검출 되었을 때의 혼잡 윈도우의 절반)으로 정한다. 
 다음에 cwnd 값이 ssthresh와 같으면, TCP는 혼잡 회피 모드로 들어가 cwnd를 조심스럽게 증가시킨다. 
+
+<figure style="width: 500px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/21.png' }}" alt=""> 
+</figure> 
 
 #### 3.7.0.2. 혼잡 회피(Congestion Avoidance)
 혼잡 회피 모드에서는 매 RTT 마다 하나의 MSS만큼 cwnd 값을 증가시킨다. 
@@ -590,13 +669,23 @@ ACK들과 손실 이벤트는 묵시적 신호이며, 각 송신자들은 다른
 #### 3.7.0.3. 빠른 회복(Fast Recovery)
 빠른 회복에서 cwnd값은 TCP를 빠른 회복 상태로 들어가게 했던 세그먼트에 대한 중복된 ACK를 수신할 때마다 1MSS만큼 증가된다. 
 빠른 회복은 권고 사항이지만 필수는 아니다. 
-초기버전 TCP Tahoe, 빠른 회복을 사용하는 TCP Reno 등이 있다. 
+
+손실 발생 시 혼잡 윈도우가 1MSS가 되는 TCP Tahoe, 빠른 회복을 사용하는 TCP Reno 등이 있다. 
+
+<figure style="width: 490px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/22.png' }}" alt=""> 
+</figure> 
 
 #### 3.7.0.4. TCP 혼잡제어: 복습(TCP Congestion Control: Retrospective)
 초기 슬로 스타트 기간을 무시하고, 손실 이벤트가 타임아웃이 아니라 중복 ACK라고 가정하면, 
 TCP 혼잡제어는 매 RTT마다 1MSS씩 cwnd의 선형(가법적)증가와 중복 ACK 시 cwnd의 절반으로 구성된다. 
+
 이런 이유로 TCP 혼잡제어는 가법적 증가, 승법적 감소(additive-increase, multiplicative decrease, AIMD)의 혼잡제어 형식이라고도 불린다. 
 그리고 TCP Vegas 등 많은 변형이 있다. 
+
+<figure style="width: 520px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/23.png' }}" alt=""> 
+</figure> 
 
 #### 3.7.0.5. TCP 처리율의 거시적 설명(Macroscopic Description of TCP Throughput)
 슬로우 스타트 단계를 무시하고, 윈도우 크키가 w바이트, 왕복시간이 RTT초이면, TCP의 전송률은 대략 w/RTT이다. 
@@ -619,15 +708,14 @@ TCP의 지속적인 개발은 애플리케이션에서 고속의 TCP 연결을 �
 병목 링크란 각 연결 경로상의 모든 링크들은 혼잡하지 않고, 병목 링크보다 더 나은 전송 능력을 가지고 있다는 것이다. 
 
 많은 이상적인 가정(다른 UDP, TCP 연결 없음, 슬로 스타트 무시, 혼잡 회피 방식 사용)이 있을 때, TCP의 AIMD 알고리즘은 공평하다. 
-두 호스트가 한 링크를 공유할 때의 처리율이 그림 3.55에 나와있다. 
+
+<figure style="width: 430px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/24.png' }}" alt=""> 
+</figure> 
+
 먼저 A부터 B로 즉, 두 호스트의 윈도우 크기가 증가한다.  
 그리고 B로부터 C로 즉, 패킷 손실로 인해 둘 다 절반(B와 원점의 중간)으로 줄어든다. 
 반복하다보면 두 호스트가 같은 대역폭을 갖게 된다. 
-
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/bio-photo.jpg' }}" alt=""> 
- 	<figcaption>center</figcaption>
-</figure> 
 
 #### 3.7.1.1. 공평성과 UDP(Fairness and UDP)
 많은 멀티미디어 애플리케이션은 혼잡제어가 없는 UDP를 사용한다. 
@@ -646,4 +734,10 @@ ECN 비트는 라우터에 의해 사용되는데, 라우터가 경험하는 혼
 
 수신 TCP가 데이터그램을 통해 ECN 혼잡 표시를 수신하면, 세그먼트의 ECE 비트를 켜서 송신자에게 알려준다. 
 그러면 송신 TCP는 혼잡 윈도우를 반으로 줄이게 된다. 
+
+<figure style="width: 590px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-02-20-computer_networking_3/25.png' }}" alt=""> 
+</figure> 
+
+
  
