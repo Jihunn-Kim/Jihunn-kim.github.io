@@ -1,6 +1,6 @@
 ---
 title: "데이터 베이스 요약 - 4. 관계 대수와 SQL"
-last_modified_at: 2021-03-08
+last_modified_at: 2021-05-13
 show_date: true
 classes: wide
 excerpt: ""
@@ -21,11 +21,11 @@ categories:
 산술 연산자와 유사하게 단일 릴레이션이나 두 개의 릴레이션을 입력으로 받아 하나의 결과 릴레이션을 생성함. 
 결과 릴레이션은 또 다른 관계 연산자의 입력으로 사용될 수 있음. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 500px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/1.png' }}" alt=""> 
 </figure> 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 450px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/2.png' }}" alt=""> 
 </figure> 
 
@@ -38,55 +38,55 @@ categories:
 
 ---
 
-(1) 실렉션 연산자 (형식: σ<sub>실렉션 조건</sub>(릴레이션)): 
+(1) 실렉션 연산자 - σ<sub>실렉션 조건</sub>(릴레이션): 
 한 릴레이션에서 실렉션 조건(selection condition)을 만족하는 투플들의 부분 집합을 생성함. 
-실렉션 조건은 릴레이션의 임의의 애트리뷰트와 상수, =, >=, < 등의 비교 연산자, AND, OR, NOT 등의 부울 연산자를 포함할 수 있음. 
+실렉션 조건은 릴레이션의 임의의 애트리뷰트와 상수, =, < 등의 비교 연산자, AND, OR, NOT 등의 부울 연산자를 포함. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 500px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/3.png' }}" alt=""> 
 </figure> 
 
 ---
 
-(2) 프로젝션 연산자 (형식: π<sub>애트리뷰트 리스트</sub>(릴레이션)): 
+(2) 프로젝션 연산자 - π<sub>애트리뷰트 리스트</sub>(릴레이션): 
 한 릴레이션의 애트리뷰트들의 부분 집합을 구함. 
 결과로 생성되는 릴레이션은 <애트리뷰트 리스트>에 명시된 애트리뷰트들만 가짐. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 500px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/4.png' }}" alt=""> 
 </figure> 
 
 ---
 
-(3) 합집합 연산자 (형식: 릴레이션1 ∪ 릴레이션2): R ∪ S는 R 또는 S에 있거나 R과 S 모두에 속한 투플들로 이루어진 릴레이션을 생성함. 
+(3) 합집합 연산자 - 릴레이션1 ∪ 릴레이션2: R ∪ S는 R 또는 S에 있거나 R과 S 모두에 속한 투플들로 이루어진 릴레이션을 생성함. 
 결과 릴레이션에서 중복된 투플들은 제외됨. 
 결과 릴레이션의 애트리뷰트 이름들은 R의 애트리뷰트들의 이름과 같거나 S의 애트리뷰트들의 이름과 같음. 
 
-<figure style="width: 600px" class="align-center">
+<figure style="width: 700px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/5.png' }}" alt=""> 
 </figure> 
 
 ---
 
-(4) 교집합 연산자 (형식: 릴레이션1 ∩ 릴레이션2): R ∩ S는 R과 S 모두에 속한 투플들로 이루어진 릴레이션을 생성함. 
+(4) 교집합 연산자 - 릴레이션1 ∩ 릴레이션2: R ∩ S는 R과 S 모두에 속한 투플들로 이루어진 릴레이션을 생성함. 
 결과 릴레이션의 애트리뷰트 이름들은 R의 애트리뷰트들의 이름과 같거나 S의 애트리뷰트들의 이름과 같음. 
 
-<figure style="width: 600px" class="align-center">
+<figure style="width: 700px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/6.png' }}" alt=""> 
 </figure> 
 
 ---
 
-(5) 차집합 연산자 (형식: 릴레이션1 - 릴레이션2): R - S는 R에는 속하지만 S에는 속하지 않은 투플들로 이루어진 릴레이션을 생성함. 
+(5) 차집합 연산자 - 릴레이션1 - 릴레이션2: R - S는 R에는 속하지만 S에는 속하지 않은 투플들로 이루어진 릴레이션을 생성함. 
 결과 릴레이션의 애트리뷰트 이름들은 R의 애트리뷰트들의 이름과 같거나 S의 애트리뷰트들의 이름과 같음. 
 
-<figure style="width: 600px" class="align-center">
+<figure style="width: 700px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/7.png' }}" alt=""> 
 </figure> 
 
 ---
 
-(6) 카티션 곱 연산자 (형식: R × S): 카디날리티가 i인 릴레이션 R(A1, ..., An)과 카디날리티가 j인 릴레이션 S(B1, ..., Bm)의 카티션 곱 R × S는 차수가 n+m이고, 카디날리티가 
+(6) 카티션 곱 연산자 - R × S: 카디날리티가 i인 릴레이션 R(A1, ..., An)과 카디날리티가 j인 릴레이션 S(B1, ..., Bm)의 카티션 곱 R × S는 차수가 n+m이고, 카디날리티가 
 i*j이고, 애트리뷰트가 (A1, A2, ..., An, B1, B2, ..., Bm)이며, R과 S의 투플들의 모든 가능한 조합으로 이루어진 릴레이션이다. 
 카티션 곱의 결과 릴레이션의 크기가 매우 클 수 있다. 
 
@@ -96,10 +96,12 @@ i*j이고, 애트리뷰트가 (A1, A2, ..., An, B1, B2, ..., Bm)이며, R과 S�
 
 ---
 
-(7) 세타(θ) 조인 (형식: R ⋈<sub>조인 조건</sub> S): 두 릴레이션 R(A1, ..., An)과 S(B1, ..., Bm)의 세타 조인 결과는 차수가 n+m이고, 애트리뷰트가 (A1, ..., An, B1, ..., Bn)이며, 
+(7) 세타(θ) 조인 - R ⋈<sub>조인 조건</sub> S: 두 릴레이션 R(A1, ..., An)과 S(B1, ..., Bm)의 세타 조인 결과는 차수가 n+m이고, 애트리뷰트가 (A1, ..., An, B1, ..., Bn)이며, 
 조인 조건을 만족하는 투플들로 이루어진 릴레이션이다. 
 
 조인 조건은 (R의 애트리뷰트 θ S의 애트리뷰트)의 형태로 주어지며 θ는 =, < 등이 가능.
+
+---
 
 (8) 동등 조인은 세타 조인 중에서 비교 연산자가 =인 조인.
 
@@ -109,7 +111,7 @@ i*j이고, 애트리뷰트가 (A1, A2, ..., An, B1, B2, ..., Bm)이며, R과 S�
 
 ---
 
-(9) 자연 조인 (형식: R ⋈ S): 두 릴레이션의 공통된 애트리뷰트에 대해 동등 조인을 수행하고, 
+(9) 자연 조인 - R ⋈ S: 두 릴레이션의 공통된 애트리뷰트에 대해 동등 조인을 수행하고, 
 동등 조인의 결과 릴레이션에 있는 두 개의 조인 애트리뷰트 중 하나를 제외한 조인. 
 
 관계 데이터베이스에서 대부분의 질의는 실렉션, 프로젝션, 자연 조인으로 표현 가능.
@@ -120,7 +122,7 @@ i*j이고, 애트리뷰트가 (A1, A2, ..., An, B1, B2, ..., Bm)이며, R과 S�
 
 ---
 
-(10) 디비전 연산자 (형식: R ÷ S): 차수가 n+m인 릴레이션 R(A1, ..., An, B1, ..., Bm)과 
+(10) 디비전 연산자 - R ÷ S: 차수가 n+m인 릴레이션 R(A1, ..., An, B1, ..., Bm)과 
 차수가 m인 릴레이션 S(B1, ..., Bm)의 디비전 R ÷ S는 차수가 n이고, 
 S에 속하는 모든 투플 u에 대하여 투플 tu(투플 t와 투플 u을 결합한 것)가 R에 존재하는 투플 t들의 집합. 
 
@@ -159,7 +161,7 @@ SQL로 표현할 때 동치를 활용: ~하지 않는 …가 없다.
 
 ---
 
-(3-1) 왼쪽 외부 조인 (형식: R ⟕ S): 릴레이션 R과 S의 왼쪽 외부 조인 연산은 R의 모든 투플들을 결과에 포함시키고, 
+(3-1) 왼쪽 외부 조인 - R ⟕ S: 릴레이션 R과 S의 왼쪽 외부 조인 연산은 R의 모든 투플들을 결과에 포함시키고, 
 만일 릴레이션 S에 관련된 투플이 없으면 결과 릴레이션에서 릴레이션 S의 애트리뷰트들은 널값으로 채움. 
 
 <figure style="width: 600px" class="align-center">
@@ -168,7 +170,7 @@ SQL로 표현할 때 동치를 활용: ~하지 않는 …가 없다.
 
 ---
 
-(3-2) 오른쪽 외부 조인 (형식: R ⟖ S): 릴레이션 R와 S의 오른쪽 외부 조인 연산은 S의 모든 투플들을 결과에 포함시키고, 
+(3-2) 오른쪽 외부 조인 - R ⟖ S: 릴레이션 R와 S의 오른쪽 외부 조인 연산은 S의 모든 투플들을 결과에 포함시키고, 
 만일 릴레이션 R에 관련된 투플이 없으면 결과 릴레이션에서 릴레이션 R의 애트리뷰트들은 널값으로 채움. 
 
 <figure style="width: 600px" class="align-center">
@@ -177,7 +179,7 @@ SQL로 표현할 때 동치를 활용: ~하지 않는 …가 없다.
 
 ---
 
-(3-3) 완전 외부 조인 (형식: R ⟗ S): 릴레이션 R와 S의 완전 외부 조인 연산은 R과 S의 모든 투플들을 결과에 포함시키고, 
+(3-3) 완전 외부 조인 - R ⟗ S: 릴레이션 R와 S의 완전 외부 조인 연산은 R과 S의 모든 투플들을 결과에 포함시키고, 
 만일 상대 릴레이션에 관련된 투플이 없으면 결과 릴레이션에서 상대 릴레이션의 애트리뷰트들은 널값으로 채움. 
 > R ⟗ S = (R ⟕ S) ∪ (R ⟖ S)
 
@@ -187,8 +189,7 @@ SQL로 표현할 때 동치를 활용: ~하지 않는 …가 없다.
 
 ## 4.2. SQL 개요
 SQL은 비절차적 언어이므로 사용자는 자신이 원하는 바(what)만 명시하며, 원하는 것을 처리하는 방법(how)은 명시할 수 없음. 
-관계 DBMS는 사용자가 입력한 SQL문을 번역하여 사용자가 요구한 데이터를 찾는데 필요한 모든 과정을 담당함. 
-대화식 SQL(interactive SQL), 내포된 SQL(embedded SQL) 두 가지 인터페이스가 있음. 
+관계 DBMS는 사용자가 입력한 SQL문을 번역하여 사용자가 요구한 데이터를 찾는데 필요한 모든 과정을 담당. 
 
 <figure style="width: 600px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/17.png' }}" alt=""> 
@@ -206,9 +207,7 @@ SQL2에서는 동일한 데이터베이스 응용에 속하는 릴레이션, 도
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/19.png' }}" alt=""> 
 </figure> 
 
-```console
-// 예시
-
+```mysql
 // 릴레이션 정의 및 제약 조건 등
 CREATE TABLE EMPLOYEE (
 	EMPNO 	NUMBER 	NOT NULL, 
@@ -240,27 +239,25 @@ ALTER TABLE STUDENT DROP CONSTRAINT STUDENT_PK;
 관계 데이터베이스에서 정보를 검색하는 SQL문. 
 관계 대수의 실렉션, 프로젝션, 조인, 카티션 곱 등을 결합한 것. 
 
+SELECT문의 형식에서 SELECT절과 FROM절만 필수적인 절이고, 나머지는 선택 사항.
+
+<figure style="width: 600px" class="align-center">
+ 	<img src="{{ '/assets/img/2021-03-06-database_system_4/21.png' }}" alt=""> 
+</figure> 
+
 4.4절에서 사용할 데이터베이스 예시 그림은 아래와 같다. 
 
 <figure style="width: 600px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/20.png' }}" alt=""> 
 </figure> 
 
-아래 그림, SELECT문의 형식에서 SELECT절과 FROM절만 필수적인 절이고, 나머지는 선택 사항.
-
-<figure style="width: 600px" class="align-center">
- 	<img src="{{ '/assets/img/2021-03-06-database_system_4/21.png' }}" alt=""> 
-</figure> 
-
 별칭(alias): 서로 다른 릴레이션에 동일한 이름을 가진 애트리뷰트가 속해 있을 때 애트리뷰트의 이름을 구분하는 방법. 
-```console
+```mysql
 FROM EMPLOYEE AS E, DEPARTMENT AS D
 WHERE E.DNO == D.DEPTNO
 ```
 
 ---
-
-SELET문 예시들 
 
 모든 애트리뷰트나 일부 애트리뷰트들을 검색. 
 
@@ -280,11 +277,11 @@ SELET문 예시들
 
 특정할 투플들을 검색. 
 
-<figure style="width: 800px" class="align-center">
+<figure style="width: 830px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/24.png' }}" alt=""> 
 </figure> 
 
-<figure style="width: 800px" class="align-center">
+<figure style="width: 830px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/25.png' }}" alt=""> 
 </figure> 
 
@@ -299,10 +296,9 @@ SELECT절에서 산술 연산자(+, -, *, /) 사용
 ---
 
 널 값을 포함한 다른 값과 널 값을 +, - 등을 사용하여 연산하면 결과는 널. 
-어떤 애트리뷰트에 들어 있는 값이 널인가 비교하기 위해서 'DNO=NULL'처럼 나타내면 안됨. 
-'DNO IS NULL', 'DNO IS NOT NULL'이 올바른 표현. 
+어떤 애트리뷰트에 들어 있는 값이 널인가 비교하기 위해서는, 'DNO IS NULL', 'DNO IS NOT NULL' 
 
-```console
+```mysql
 // 아래 비교 결과들은 모두 거짓
 NULL > 300
 NULL = 300
@@ -339,8 +335,8 @@ SELECT절에 명시한 애트리뷰트들을 사용해서 정렬해야 함.
 한 릴레이션의 한 개의 애트리뷰트에 적용되어 단일 값을 반환함. 
 SELECT절과 HAVING절에만 나타날 수 있음. 
 
-COUNT(*)를 제외하고는 널값을 제거한 후 남아 있는 값들에 대해서 집단 함수의 값을 구함. 
-COUNT(*)는 결과 릴레이션의 모든 행들의 총 개수를 구하는 반면에 COUNT(애트리뷰트)는 해당 애트리뷰트에서 널값이 아닌 값들의 개수를 구함. 
+COUNT({% raw %}*{% endraw %})를 제외하고는 널값을 제거한 후 남아 있는 값들에 대해서 집단 함수의 값을 구함. 
+COUNT({% raw %}*{% endraw %})는 결과 릴레이션의 모든 행들의 총 개수를 구하는 반면에 COUNT(애트리뷰트)는 해당 애트리뷰트에서 널값이 아닌 값들의 개수를 구함. 
 
 키워드 DISTINCT가 집단 함수 앞에 사용되면 집단 함수가 적용되기 전에 먼저 중복을 제거함. 
 
@@ -368,7 +364,7 @@ HAVING절을 사용하여, 어떤 조건을 만족하는 그룹들에 대해서�
 그룹화 애트리뷰트에 같은 값을 갖는 투플들의 그룹에 대한 조건을 나타내고, 이 조건을 만족하는 그룹들만 질의 결과에 나타남. 
 HAVING절에 나타나는 애트리뷰트는 반드시 GROUP BY절에 나타나거나 집단 함수에 포함되어야 함. 
 
-<figure style="width: 600px" class="align-center">
+<figure style="width: 630px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/31.png' }}" alt=""> 
 </figure> 
 
@@ -417,7 +413,7 @@ ALL이 붙은 것은 중복 튜플을 허용한다.
 스칼라(scala): 컬럼 값으로 사용될 수 있는 원자 값 (atomic value)가 반환된다. 
 WHERE 절에서 상수 또는 애트리뷰트가 사용될 위치에 나타날 수 있음. 
 
-<figure style="width: 600px" class="align-center">
+<figure style="width: 630px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/35.png' }}" alt=""> 
 </figure> 
 
@@ -430,7 +426,7 @@ WHERE 절에서 상수 또는 애트리뷰트가 사용될 위치에 나타날 �
 - ALL: 한 애트리뷰트가 값들의 집합에 속하는 모든 값들과 어떤 관계를 갖는가를 검사
 - EXISTS: 중첩 질의의 결과가 빈 릴레이션인지 검사. 빈 릴레이션이면 거짓, 아니면 참.
 
-<figure style="width: 600px" class="align-center">
+<figure style="width: 650px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/36.png' }}" alt=""> 
 </figure> 
 
@@ -446,7 +442,7 @@ WHERE 절에서 상수 또는 애트리뷰트가 사용될 위치에 나타날 �
 (2)와 마찬가지로 IN, ANY, ALL, EXISTS 중에 하나를 외부 질의의 WHERE에서 사용할 수 있음. 
 결과 릴레이션과 호환되는 투플 구조를 갖는 투플을 사용해서 비교해야 함. 
 
-```console
+```mysql
 SELECT EMPNAME 
 FROM EMPLOYEE E 
 WHERE SALARY =< 1500000 AND (E.TITLE, E.DNO) IN 
@@ -472,7 +468,7 @@ WHERE SALARY =< 1500000 AND (E.TITLE, E.DNO) IN
 FROM 절에에서도 저장된 일반 테이블과 함께 중첩 질의를 사용할 수 있음. 
 중첩 질의는 테이블 이름이 없으므로 alias를 사용하여 이름 부여. 
 
-```console
+```mysql
 SELECT EMPNAME, DEPTNAME 
 FROM EMPLOYEE E, (SELECT DEPTNO, DEPTNAME FROM DEPARTMENT) D 
 WHERE E.DNO = D.DEPTNO AND TITLE = '과장';
@@ -484,9 +480,8 @@ INSERT문은 기존의 릴레이션에 투플을 삽입.
 릴레이션에 한 번에 한 투플씩 삽입하는 것과 한 번에 여러 개의 투플들을 삽입할 수 있는 것으로 구분. 
 
 (1) 릴레이션에 한 번에 한 투플씩 삽입하는 INSERT문
-```console
-INSERT 
-INTO 릴레이션(애트리뷰트1, ..., 애트리뷰트n) 
+```mysql
+INSERT INTO 릴레이션(애트리뷰트1, ..., 애트리뷰트n) 
 VALUES (값1, ..., 값n); 
 ```
 
@@ -495,9 +490,8 @@ VALUES (값1, ..., 값n);
 </figure> 
 
 (2) 릴레이션에 한 번에 여러 개의 투플들을 삽입하는 INSERT문
-```console
-INSERT 
-INTO 릴레이션(애트리뷰트1, ..., 애트리뷰트n) 
+```mysql
+INSERT INTO 릴레이션(애트리뷰트1, ..., 애트리뷰트n) 
 SELECT ... FROM ... WHERE ...; 
 ```
 
@@ -509,14 +503,12 @@ SELECT ... FROM ... WHERE ...;
 
 DELETE문은 한 릴레이션으로부터 한 개 이상의 투플들을 삭제함. 
  
-```console
-// DELETE문의 구문
-DELETE 
-FROM 릴레이션 
+```mysql
+DELETE FROM 릴레이션 
 WHERE 조건; 
 ```
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 600px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/42.png' }}" alt=""> 
 </figure> 
 
@@ -524,20 +516,19 @@ WHERE 조건;
 
 UPDATE문은 한 릴레이션에 들어 있는 투플들의 애트리뷰트 값들을 수정. 
 
-```console
-// UPDATE문의 구문
+```mysql
 UPDATE 릴레이션 
 SET 애트리뷰트 = 값 또는 식[, …] 
 WHERE 조건; 
 ```
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 600px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/43.png' }}" alt=""> 
 </figure> 
 
 ## 4.6. 트리거(trigger)와 주장(assertion)
 트리거는 명시된 이벤트가 발생할 때마다 DBMS가 자동적으로 수행하는, 사용자가 정의하는 문(프로시저). 
-데이터베이스의 무결성을 유지하기 위한 일반적이고 강력한 도구. 
+데이터베이스의 무결성을 유지하기 위한 도구. 
 테이블 정의시 표현할 수 없는 기업의 비즈니스 규칙들을 시행하는 역할. 
 
 트리거 표현 요소
@@ -545,20 +536,20 @@ WHERE 조건;
 - 트리거가 활성화되었을 때 수행되는 테스트인 조건 (condition)
 - 트리거가 활성화되고 조건이 참일 때 수행되는 문(프로시저)인 동작 (action)
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 600px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/44.png' }}" alt=""> 
 </figure> 
 
-이벤트의 가능한 예로는 테이블에 투플 삽입, 투플 삭제, 투플 수정 등이 있음. 
-조건은 임의의 형태의 프레디키트. 
+이벤트의 가능한 예로는 테이블에 투플 삽입, 투플 삭제, 투플 수정 등.  
+조건은 임의의 형태의 프레디키트.  
 동작은 데이터베이스에 대한 임의의 갱신. 
 
 어떤 이벤트가 발생했을 때 조건이 참이 되면 트리거와 연관된 동작이 수행되고, 그렇지 않으면 아무 동작도 수행되지 않음. 
-삽입, 삭제, 수정 등이 일어나기 전(before)에 동작하는 트리거와 일어난 후(after)에 동작하는 트리거로 구분. 
+이벤트가 일어나기 전(before)에 동작하는 트리거와 일어난 후(after)에 동작하는 트리거로 구분. 
 
 하나의 트리거가 활성화되어 이 트리거의 SQL문이 수행되고, 연쇄적으로 다른 트리거가 활성화될 수 있음. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 600px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/45.png' }}" alt=""> 
 </figure> 
 
@@ -573,13 +564,13 @@ CREATE ASSERTION 이름
 CHECK 조건; 
 ```
 
-트리거보다 좀더 일반적인 무결성 제약조건
+트리거보다 좀더 일반적인 무결성 제약조건.  
 DBMS는 주장의 프레디키트를 검사하고, 만일 참이면 데이터베이스 수정이 허용됨. 
 
-대부분의 주장은 NOT EXISTS를 포함. 
+대부분의 주장은 NOT EXISTS를 포함.  
 '모든 x가 F를 만족한다'를 이와 동치인 '¬ F를 만족하는 x가 존재하지 않는다'로 표시하기 때문. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 600px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/46.png' }}" alt=""> 
 </figure> 
 
@@ -593,7 +584,7 @@ C, C++, 코볼, 자바 등의 언어로 작성하는 프로그램에 SQL문을 �
 호스트 언어에 포함되는 SQL문을 내포된 SQL이라 부름. 
 데이터 구조가 불일치하는 문제(impedance mismatch 문제)가 있음. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 600px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-06-database_system_4/47.png' }}" alt=""> 
 </figure> 
 
