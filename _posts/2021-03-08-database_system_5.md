@@ -1,6 +1,6 @@
 ---
 title: "데이터 베이스 요약 - 5. 데이터베이스 설계와 ER 모델"
-last_modified_at: 2021-03-09
+last_modified_at: 2021-05-13
 show_date: true
 classes: wide
 excerpt: ""
@@ -11,21 +11,20 @@ categories:
 # 5. 데이터베이스 설계와 ER 모델
 데이터베이스 설계는 개념적 데이터베이스 설계와 물리적 데이터베이스 설계로 구분. 
 
-개념적 데이터베이스 설계는 데이터베이스에 사용할 정보 사용의 모델을 개발하는 과정. 
-조직체(실세계)의 엔티티, 관계, 프로세스, 무결성 제약조건 등을 나타내는 추상화 모델을 구축. 
+개념적 데이터베이스 설계는 조직체(실세계)의 엔티티, 관계, 프로세스, 무결성 제약조건 등을 나타내는 추상화 모델을 구축. 
 - 엔티티는 서로 구분이 되면서, 조직체에서 데이터베이스에 나타내려는 객체(사람, 장소, 사물 등) 
 - 관계는 두 개 이상의 엔티티들 간의 연관을 나타냄 
 - 프로세스는 관련된 활동을 나타냄 
-- 무결성 제약조건은 데이터의 정확성과 비즈니스 규칙을의미
+- 무결성 제약조건은 데이터의 정확성과 비즈니스 규칙을 의미
 
 물리적 데이터베이스 설계에서는 물리적인 저장 장치와 접근 방식을 다룸. 
-
+
 ---
 
 개념적 수준의 모델은 특정 데이터 모델과 독립적으로 응용 세계를 모델링 할 수 있도록 함. 
 데이터베이스 구조나 스키마를 하향식으로 개발할 수 있기 위한 틀(framework)을 제공함. 
 
-엔티티-관계(ER: Entity-Relationship) 모델 등이 있으며, 
+엔티티-관계(ER, Entity-Relationship) 모델 등이 있으며, 
 개념적인 데이터 모델이 사상될 수 있는 다수의 구현 데이터 모델(implementation data model; 관계 데이터 모델 등)이 존재함. 
 
 ## 5.1. 데이터베이스 설계의 개요
@@ -34,7 +33,7 @@ categories:
 
 요구사항 분석, 개념적 설계, DBMS의 선정, 논리적 설계, 스키마 정제, 물리적 설계와 튜닝 등으로 이루어짐. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 550px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/1.png' }}" alt=""> 
 </figure> 
 
@@ -52,7 +51,7 @@ categories:
 
 (4) 논리적 설계: 
 선택한 DBMS의 데이터 모델을 사용하여 논리적 스키마(외부 스키마도 포함)를 생성함. 
-예를 들어, ER 모델로 표현된 개념적 스키마를 관계 데이터 베이스 스키마로사상함. 
+예를 들어, ER 모델로 표현된 개념적 스키마를 관계 데이터 베이스 스키마로 사상함. 
 또한 더 좋은 스키마로 변환하기 위해서 정규화 과정을 적용함. 
 
 (5) 물리적 설계: 
@@ -68,10 +67,9 @@ categories:
 데이터베이스 스키마는 트랜잭션에서 요구하는 정보를 포함해야 함. 
 
 ## 5.2. ER 모델
-현재는 EER(Enhanced Entity Relationship) 모델이 데이터베이스 설계 과정에 사용되고 있음. 
+EER(Enhanced Entity Relationship) 모델이 데이터베이스 설계 과정에 사용될 수 있음. 
 개념적 설계를 위한 모델로서, 많은 CASE 도구들에서 지원됨. 
-실세계를 엔티티, 애트리뷰트, 엔티티들 간의 관계로 표현함. 
-쉽게 관계 데이터 모델로 사상됨. 
+실세계를 엔티티, 애트리뷰트, 엔티티들 간의 관계로 표현. 
 
 ---
 
@@ -91,7 +89,7 @@ categories:
 엔티티 집합과 엔티티 타입을 엄격하게 구분할 필요는 없음. 
 ER 다이어그램에서 엔티티 타입은 직사각형으로 나타냄.
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 500px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/2.png' }}" alt=""> 
 </figure> 
 
@@ -100,18 +98,14 @@ ER 다이어그램에서 엔티티 타입은 직사각형으로 나타냄.
 약한 엔티티 타입은 키를 형성하기에 충분한 애트리뷰트들을 갖지 못한 엔티티 타입. 
 ER 다이어그램에서 이중선 직사각형으로 표기. 
 
-이 타입이 식별되기 위해서는 소유 엔티티 타입(owner entity type; 식별 엔티티 타입(identifying entity type))이 제공한 키 애트리뷰트를 결합해야함. 
+약한 엔티티 타입이 식별되기 위해서는 소유 엔티티 타입(owner entity type)이 제공한 키 애트리뷰트를 결합해야함. 
 약한 엔티티 타입의 부분 키는 점선 밑줄을 그어 표시
-(부분 키(partialkey) 예: 가족의 이름처럼 한 사원의 가족내에서는 서로 다르지만, 회사 전체 사원들의 가족들에서는 같은 경우가 생길 수 있음). 
-
-
 
 ---
 
 하나의 엔티티는 연관된 애트리뷰트들의 집합으로 설명됨. 
-애트리뷰트의 도메인은 그 애트리뷰트가 가질 수 있는 모든 가능한 값들의 집합. 
 
-키 애트리뷰트는 하나 이상의 애트리뷰트의 모임으로서 엔티티 타입 내에서 각 엔티티를 고유하게 식별함. 
+키 애트리뷰트는 엔티티 타입 내에서 각 엔티티를 고유하게 식별함. 
 ER 다이어그램에서 기본 키에 속하는 애트리뷰트는 밑줄을 그어 표시함. 
 
 요구사항 명세에서 명사나 형용사로 표현됨. 
@@ -121,7 +115,7 @@ ER 다이어그램에서 타원형으로 나타냄.
 (1) 단순 애트리뷰트(simple attribute)는 다른 애트리뷰트로 나눌 수 없는 애트리뷰트. 
 ER 다이어그램에서 대부분의 애트리뷰트는 단순 애트리뷰트.
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 450px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/7.png' }}" alt=""> 
 </figure> 
 
@@ -137,7 +131,7 @@ ER 다이어그램에서 대부분의 애트리뷰트는 단일 값 애트리뷰
 (4) 다치 애트리뷰트(multi-valued attribute)는 엔티티마다 여러 개의 값을 가질 수 있는 애트리뷰트. 
 ER 다이어그램에서 이중선 타원으로 표현함. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 300px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/5.png' }}" alt=""> 
 </figure> 
 
@@ -149,7 +143,7 @@ ER 다이어그램에서 대부분의 애트리뷰트는 저장된 애트리뷰�
 릴레이션의 애트리뷰트로 포함시키지 않는 것이 좋음. 
 ER 다이어그램에서 점선 타원으로 표현함. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 300px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/6.png' }}" alt=""> 
 </figure> 
 
@@ -161,7 +155,7 @@ ER 다이어그램에서 점선 타원으로 표현함.
 ER 다이어그램에서 다이어몬드로 표기. 
 관계 타입이 서로 연관시키는 엔티티 타입들을 관계 타입에 실선으로 연결함. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 500px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/8.png' }}" alt=""> 
 </figure> 
 
@@ -189,7 +183,7 @@ ER 다이어그램에서 다이어몬드로 표기.
 관계를 1:1, 1:N, M:N 으로 구분. 
 카디날리티에 관한 정보는 간선 위에 나타냄. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 500px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/11.png' }}" alt=""> 
 </figure> 
 
@@ -211,7 +205,7 @@ A의 각 엔티티가 B의 임의의 개수의 엔티티와 연관되고, B의 �
 - min=0은 어떤 엔티티가 반드시 관계에 참여해야 할 필요는 없음을 의미 
 - max=*는 어떤 엔티티가 관계에 임의의 수 만큼 참여할 수 있음을 의미 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 500px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/12.png' }}" alt=""> 
 </figure> 
 
@@ -227,14 +221,14 @@ A의 각 엔티티가 B의 임의의 개수의 엔티티와 연관되고, B의 �
 
 ---
 
-전체 참여는 어떤 관계에 한 엔티티 타입의 모든 엔티티만 참여하는 것을 의미. 
-부분 참여는 어떤 관계에 한 엔티티 타입의 일부 엔티티만 참여하는 것을 의미. 
+전체 참여는 어떤 관계에 한 엔티티 타입의 모든 엔티티만 참여하는 것.  
+부분 참여는 어떤 관계에 한 엔티티 타입의 일부 엔티티만 참여하는 것.  
 약한 엔티티 타입은 항상 관계에 전체 참여. 
 
 전체 참여는 ER 다이어그램에서 이중 실선으로 표시. 
 카디날리티 비율과 함께 참여 제약조건은 관계에 대한 중요한 제약조건. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 450px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/14.png' }}" alt=""> 
 </figure> 
 
@@ -242,7 +236,7 @@ A의 각 엔티티가 B의 임의의 개수의 엔티티와 연관되고, B의 �
 
 다중 관계: 두 엔티티 타입 사이에 두 개 이상의 관계 타입이 존재할 수 있음. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 500px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/15.png' }}" alt=""> 
 </figure> 
 
@@ -271,18 +265,17 @@ ER 스키마를 작성하기 위한 지침.
 
 ---
 
-ER 모델의 다른 표기법이 있다. 
-위에서 살펴본 표기법으로, 많은 애트리뷰트가 엔티티 타입에 연결된 다이어그램을 나타내려면 불편하고 공간을 많이 차지. 
+많은 애트리뷰트가 엔티티 타입에 연결된 다이어그램을 나타내려면 불편하고 공간을 많이 차지하기에 다른 표기법을 사용. 
 
 CASE 도구들에서는 새발(crow-feet) 표기법 및 변형들이 흔히 사용됨. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 550px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/17.png' }}" alt=""> 
 </figure> 
 
 ## 5.3. 데이터베이스 설계 사례
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 600px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/18.png' }}" alt=""> 
 </figure> 
 
@@ -291,7 +284,7 @@ CASE 도구들에서는 새발(crow-feet) 표기법 및 변형들이 흔히 사�
 
 ER 스키마에는 엔티티 타입과 관계 타입이 존재하지만, 관계 데이터베이스에는 이들을 구분하지 않고 릴레이션들만 있음. 
 
-<figure style="width: 400px" class="align-center">
+<figure style="width: 440px" class="align-center">
  	<img src="{{ '/assets/img/2021-03-08-database_system_5/19.png' }}" alt=""> 
 </figure> 
 
